@@ -6,6 +6,7 @@ class Status(db.Model):
     body = db.Column(db.String(280))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    trail_system = db.Column(db.Integer, db.ForeignKey('trails.id'))
     
     def __repr__(self):
-        return f'<Post { self.body }>'
+        return f'<Status { self.body }>'

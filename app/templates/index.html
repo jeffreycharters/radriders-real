@@ -2,6 +2,6 @@
 
 {% block app_content %}
 
-This is a test.
+This is a test. You are {{ current_user.username or 'stupid' }}.
 
 {% endblock %}

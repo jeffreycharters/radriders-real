@@ -6,7 +6,11 @@ trails_bp = Blueprint('trails_bp', __name__,
                      template_folder='templates',
                      static_folder='static')
 
+@trails_bp.route('/')
+@trails_bp.route('/index')
+def index():
+    return render_template('index.html')
 
 @trails_bp.route('/trails', methods=['GET'])
-def login():
+def trails():
     return 'Testing'

@@ -12,7 +12,8 @@
 
     <body>
         <div>RadRiders: 
-            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('trails_bp.index') }}">Home</a>
+            <a href="{{ url_for('trails_bp.trails') }}">Trails</a>
             {% if current_user.is_anonymous %}
                 <a href="{{url_for('users_bp.login') }}">Login</a>
             {% else %}

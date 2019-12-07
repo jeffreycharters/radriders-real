@@ -1,5 +1,6 @@
 from app.status.models import Status
 from app.users.models import User
+from app.trails.models import Trails
 from app import db
 from app import create_app
 
@@ -9,7 +10,7 @@ app = create_app()
 
 @app.shell_context_processor
 def make_shell_context():
-    return {'db': db, 'User': User, 'Status': Status}
+    return {'db': db, 'User': User, 'Status': Status, 'Trails': Trails}
 
 
 if __name__ == "__main__":

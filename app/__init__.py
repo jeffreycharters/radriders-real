@@ -50,7 +50,7 @@ def create_app():
             mail_handler.setLevel(logging.ERROR)
             app.logger.addHandler(mail_handler)
 
-    # Error logging
+    # File-based error logging
     if not app.debug:
         if not os.path.exists('logs'):
             os.mkdir('logs')

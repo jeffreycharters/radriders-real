@@ -55,4 +55,8 @@ def register():
 
 @users_bp.route('/user/<username>', methods=['GET'])
 def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    status = [
+        {'author': user, 'body': 'Test status 1'}
+    ]
     return render_template('user.html', username=username)

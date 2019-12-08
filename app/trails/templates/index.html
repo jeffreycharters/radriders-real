@@ -6,8 +6,7 @@
 <h2>Crowdsourcing trail conditions</h2>
 
 {% for status in statuses %}
-    <p><b>{{ status.trails.name }}</b> ({{ moment(status.timestamp).fromNow() }}):
-    {{ status.body }}</p>
+    {% include '_status.html' %}
 {% endfor %}
 
 {% endblock %}

@@ -42,14 +42,12 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        print('Validated')
         user = User(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('users_bp.login'))
-    print('No validated')
     return render_template('register.html', title='Get Registered', form=form)
 
 

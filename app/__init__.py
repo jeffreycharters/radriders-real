@@ -2,6 +2,7 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from config import Config
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
@@ -10,10 +11,10 @@ db = SQLAlchemy()
 migrate = Migrate()
 login = LoginManager()
 
-def create_app():
+def create_app(config_class=Config):
     app = Flask(__name__, instance_relative_config=False)
 
-    app.config.from_object('config.Config')
+    app.config.from_object(config_class)
 
     db.init_app(app)
     migrate.init_app(app, db)

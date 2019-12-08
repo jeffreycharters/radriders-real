@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+
+<h1>Add a Trail System</h1>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.trail_name.label }}<br>
+        {{ form.trail_name(size=32) }}<br>
+        {% for error in form.trail_name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+    {{ form.city.label }}<br>
+    {{ form.city(size=32) }}<br>
+    {% for error in form.city.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    </p>
+    <p>
+        {{ form.province.label }}<br>
+        {{ form.province }}<br>
+        {% for error in form.province.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>{{ form.submit() }}</p>
+    
+</form>
+
+{% if approving %}
+<form action="{{ url_for('trails_bp.reject_trails', trail_id=trail_id) }}" method="GET">
+<input type="submit" value="Reject">
+</form>
+{% endif %}
+
+
+{% endblock %}

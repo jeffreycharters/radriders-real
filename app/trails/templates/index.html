@@ -2,6 +2,12 @@
 
 {% block app_content %}
 
-This is a test. You are {{ current_user.username or 'stupid' }}.
+<h1>RadRiders MTB.</h1>
+<h2>Crowdsourcing trail conditions</h2>
+
+{% for status in statuses %}
+    <p><b>{{ status.trails.name }}</b> ({{ moment(status.timestamp).fromNow() }}):
+    {{ status.body }}</p>
+{% endfor %}
 
 {% endblock %}

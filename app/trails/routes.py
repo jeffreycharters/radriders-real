@@ -3,6 +3,7 @@ from flask import current_app as app
 from flask_login import login_required, current_user
 from app import db
 from app.trails.models import Trails
+from app.status.models import Status
 from app.trails.forms import TrailAddForm
 
 trails_bp = Blueprint('trails_bp', __name__,
@@ -13,7 +14,8 @@ trails_bp = Blueprint('trails_bp', __name__,
 @trails_bp.route('/')
 @trails_bp.route('/index')
 def index():
-    return render_template('index.html')
+    statuses = Status.query.order_by(Status.timestamp.desc()).all()
+    return render_template('index.html', statuses=statuses)
 
 
 @trails_bp.route('/add_trail_system', methods=['GET', 'POST'])

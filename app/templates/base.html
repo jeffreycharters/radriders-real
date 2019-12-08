@@ -3,6 +3,9 @@
     
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        {{ moment.include_jquery() }}
+        {{ moment.include_moment() }}
+
         {% if title %}
             <title>{{ title }} - RadRiders MTB</title>
         {% else %}
@@ -14,6 +17,7 @@
         <div>RadRiders: 
             <a href="{{ url_for('trails_bp.index') }}">Home</a>
             {% if current_user.is_authenticated %}
+                <a href="{{ url_for('status_bp.new_status') }}">Update Status</a>
                 <a href="{{ url_for('trails_bp.add_trails') }}">Add Trails</a>
             {% endif %}
             {% if current_user.admin %}

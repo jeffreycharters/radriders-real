@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+
+<h1>All users</h1>
+
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Admin</th>
+        <th>Active</th>
+    </tr>
+    {% for item in items %}
+    <tr>
+        <td>{{ item.username }}</td>
+        <td>{{ item.email }}</td>
+        <td>{{ 'Yes' if item.admin else 'No' }}</td>
+        <td>{{ 'Yes' if item.active else 'No' }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock %}

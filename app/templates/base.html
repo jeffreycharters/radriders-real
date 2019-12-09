@@ -23,7 +23,7 @@
                 <a href="{{ url_for('trails_bp.add_trails') }}">Add Trails</a>
             {% endif %}
             {% if current_user.admin %}
-                <a href="{{ url_for('trails_bp.approve_trails') }}">Approve Trails</a>
+                <a href="{{ url_for('admin_bp.admin') }}">Admin Panel</a>
             {% endif %}
             {% if current_user.is_anonymous %}
                 <a href="{{url_for('users_bp.login') }}">Login</a>

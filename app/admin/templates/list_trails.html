@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+
+<h1>All Trail Networks</h1>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>City</th>
+        <th>Province</th>
+        <th>Approved</th>
+    </tr>
+    {% for item in items %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.city }}</td>
+        <td>{{ item.province }}</td>
+        <td>{{ 'Yes' if item.approved else 'No' }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock %}

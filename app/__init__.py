@@ -30,8 +30,10 @@ def create_app(config_class=Config):
         from .users import routes as users_routes
         from .status import routes as status_routes
         from .trails import routes as trails_routes
+        from .admin import routes as admin_routes
 
         app.register_blueprint(errors_bp)
+        app.register_blueprint(admin_routes.admin_bp)
         app.register_blueprint(users_routes.users_bp)
         app.register_blueprint(status_routes.status_bp)
         app.register_blueprint(trails_routes.trails_bp)

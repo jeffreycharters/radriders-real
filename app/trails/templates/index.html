@@ -8,6 +8,10 @@
 
 {% for status in statuses %}
     {% include '_status.html' %}
+{% else %}
+    <p>You aren't subscribed to any trails!</p>
+    <p>Click <a href="{{ url_for('trails_bp.explore_trails') }}">here</a> for the trail list.</p>
 {% endfor %}
+
 
 {% endblock %}

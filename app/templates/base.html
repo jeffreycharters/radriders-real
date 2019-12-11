@@ -18,6 +18,7 @@
             will be accidentally destroyed. Go nuts. ]</p>
         <div>RadRiders: 
             <a href="{{ url_for('trails_bp.index') }}">Home</a>
+            <a href="{{ url_for('trails_bp.explore_trails') }}">Trail List</a>
             {% if current_user.is_authenticated %}
                 <a href="{{ url_for('status_bp.new_status') }}">Update Status</a>
                 <a href="{{ url_for('trails_bp.add_trails') }}">Add Trails</a>

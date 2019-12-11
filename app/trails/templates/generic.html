@@ -5,6 +5,10 @@
 <h1>RadRiders MTB.</h1>
 <h2>Crowdsourcing trail conditions</h2>
 
+<h3>Here are some recent trail status updates</h3>
+
+<p>Click <a href="{{ url_for('trails_bp.explore_trails') }}">here</a>
+for a complete list of trails.</p>
 
 {% for status in statuses %}
     {% include '_status.html' %}

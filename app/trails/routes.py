@@ -14,7 +14,10 @@ trails_bp = Blueprint('trails_bp', __name__,
 @trails_bp.route('/')
 @trails_bp.route('/index')
 def index():
-    statuses = Status.query.order_by(Status.timestamp.desc()).all()
+    if current_user.is_anonymous:
+        statuses = Status.query.order_by(Status.timestamp.desc()).limit(10)
+        return render_template('generic.html', statuses=statuses)
+    statuses = current_user.followed_statuses().all()
     return render_template('index.html', statuses=statuses)
 
 
@@ -42,7 +45,7 @@ def approve_trails():
         trails.approved = 1
         db.session.commit()
         flash(f'{trails.name} approved!')
-        redirect(url_for('trails_bp.approve_trails'))
+        return redirect(url_for('admin_bp.admin'))
     if trails is not None and current_user.admin:
         form = TrailAddForm(obj=trails, trail_name=trails.name)
         form.submit.label.text = 'Approve'
@@ -51,6 +54,13 @@ def approve_trails():
         return render_template('add.html', title='Approve trails',
                                form=form, approving=approving, trail_id=trail_id)
     return redirect(url_for('trails_bp.index'))
+
+
+@trails_bp.route('/explore_trails')
+def explore_trails():
+    trails = Trails.query.filter_by(
+        approved=1).order_by(Trails.name.asc()).all()
+    return render_template('explore.html', title='All of the trails', trails=trails, user=current_user)
 
 
 @trails_bp.route('/reject_trails/<trail_id>')

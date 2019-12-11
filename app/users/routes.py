@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, redirect, flash, url_for, request
+from flask import Blueprint, render_template, redirect, flash, url_for, request, jsonify
 from flask import current_app as app
 from flask_login import current_user, login_user, logout_user, login_required
 from app import db
 from app.users.forms import LoginForm, RegistrationForm
 from app.users.models import User
+from app.trails.models import Trails
 from werkzeug.urls import url_parse
 
 users_bp = Blueprint('users_bp', __name__,
@@ -51,10 +52,26 @@ def register():
     return render_template('register.html', title='Get Registered', form=form)
 
 
+@users_bp.route('/subscribe/<trail_id>', methods=['POST'])
+def subscribe(trail_id):
+    trails = Trails.query.filter_by(id=trail_id).first()
+    if trails is not None:
+        current_user.subscribe(trails)
+    return jsonify({'response': 'Subscribed!'})
+
+
+@users_bp.route('/unsubscribe/<trail_id>', methods=['POST'])
+def unsubscribe(trail_id):
+    trails = Trails.query.filter_by(id=trail_id).first()
+    if trails is not None:
+        current_user.unsubscribe(trails)
+    return jsonify({'response': 'Unsubscribed!'})
+
+
 @users_bp.route('/user/<username>', methods=['GET'])
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     status = [
         {'author': user, 'body': 'Test status 1'}
     ]
-    return render_template('user.html', username=username)
+    return render_template('user.html', username=user.username)

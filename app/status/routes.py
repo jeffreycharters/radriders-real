@@ -25,7 +25,7 @@ def new_status():
         db.session.add(status)
         db.session.commit()
         flash('Status updated successfully!')
-        redirect(url_for('trails_bp.index'))
+        return redirect(url_for('trails_bp.index'))
     return render_template('new.html', title='New Trail Status', form=form)
 
 

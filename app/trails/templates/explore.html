@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+
+<script type="text/javascript">
+
+    function subscribe_to_trail(id) {
+        console.log('subscribing to trail ' + id);
+        var dest = document.getElementById('subscribe'+id);
+        $.post('/subscribe/'+id).done(function(response) {
+            console.log(dest);
+            dest.innerHTML = response['response']
+            }).fail(function() {
+                dest.innerHTML = 'Error! Not subscribed!';
+            })
+        }
+
+    function unsubscribe_from_trail(id) {
+        console.log('unsubscribing from trail ' + id);
+        var dest = document.getElementById('subscribe'+id);
+        $.post('/unsubscribe/'+id).done(function(response) {
+            console.log(dest);
+            dest.innerHTML = response['response']
+            }).fail(function() {
+                dest.innerHTML = 'Error! Still subscribed!';
+        })
+    }
+
+    document.addEventListener('click', function (event) {
+        // If the clicked element doesn't have the right selector, bail
+        clicked = event.target
+        if (!clicked.matches('.sub') && !clicked.matches('.unsub')) return;
+        // Don't follow the link
+        event.preventDefault();
+        // Log the clicked element in the console
+        if (clicked.matches('.sub')) {
+            subscribe_to_trail(event.target.id.substr(5));
+        }
+        else {
+            unsubscribe_from_trail(event.target.id.substr(5));
+        }
+    }, false);
+
+</script>
+
+
+<h1>All currently monitored trails</h1>
+
+    {% if current_user.is_anonymous %}
+        <h3><a href="{{ url_for('users_bp.register') }}">Register</a>
+        or <a href="{{ url_for('users_bp.login') }}">sign in</a> to subscribe to trail updates!</h3>
+    {% endif %}
+
+    {% for trail in trails %}
+        <div>{{ trail.name }}, {{ trail.province }} <span id="subscribe{{ trail.id }}">
+            {% if current_user.is_authenticated and not user.is_subscribed(trail) %}
+                <a href="{{ url_for('users_bp.subscribe', trail_id=trail.id) }}" class="sub" id="trail{{ trail.id }}">Subscribe!</a>
+            {% elif current_user.is_authenticated %}
+                <a href="{{ url_for('users_bp.unsubscribe', trail_id=trail.id) }}" class="unsub" id="trail{{ trail.id}}">Unsubscribe!</a>
+            {% endif %}
+            </span>
+        </div>
+    {% endfor %}
+
+
+{% endblock%}

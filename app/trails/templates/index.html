@@ -2,9 +2,20 @@
 
 {% block app_content %}
 
-<h1>RadRiders MTB.</h1>
-<h2>Crowdsourcing trail conditions</h2>
+<h1 class="title-header outlined">RadRiders MTB</h1>
 
+
+<h2 class="tagline">
+    {% if stranger %}Crowdsourced Trail Conditions
+    {% else %}Latest updates for subscribed trails
+    {% endif %}
+</h2>
+
+<hr class="dashed">
+
+{% if stranger %}
+    <p>Please create an account to subscribe to specific trails!</p>
+{% endif %}
 
 {% for status in statuses %}
     {% include '_status.html' %}

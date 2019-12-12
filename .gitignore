@@ -6,3 +6,5 @@ app.db
 app.db.bak
 app.db-journal
 logs
+*.png
+*.jpg

@@ -1,14 +1,8 @@
-<table class="table table-hover">
-    <tr>
-        <td>
-            <b>{{ status.trails.name }}</b> ({{ moment(status.timestamp).fromNow() }})
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <b>{{ status.author.username }}:</b> {{ status.body }}
-        </td>
-    </tr>
-</table>
-<br>
-    
+<div class="div-status-top">
+    <b>{{ status.trails.name }}</b>
+                ({{ status.trails.city }}, {{ status.trails.province }})
+</div>
+<div class="div-status-bottom">
+    <b>{{ status.body }}</b><br>
+    <div width="100%" style="text-align: right;"><span style="color: #73abc2;"><b>{{ status.author.username }}</b>, {{ moment(status.timestamp).fromNow() }}</span></div>
+</div>

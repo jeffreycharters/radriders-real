@@ -9,7 +9,7 @@ class TrailAddForm(FlaskForm):
                              DataRequired(), Length(min=1, max=64)])
     city = StringField('Nearest City', validators=[
                        DataRequired(), Length(min=1, max=64)])
-    provinces = [('ON', 'ON'), ('AB', 'AB'), ('BC', 'BC'), ('MB', 'MB'), ('NB', 'NB'), ('NL', 'NL'),
-                 ('NS', 'NS'), ('NT', 'NT'), ('NU', 'NU'), ('PE', 'PE'), ('QC', 'QC'), ('SK', 'SK'), ('YT', 'YT')]
+    provinces = [('ON', 'Ontario'), ('AB', 'Alberta'), ('BC', 'British CColumbia'), ('MB', 'Manitoba'), ('NB', 'New Brunswick'), ('NL', 'Newfoundland & Labrador'),
+                 ('NS', 'Nove Scotia'), ('NT', 'Northwest Territories'), ('NU', 'Nunavut'), ('PE', 'Prince Edward Island'), ('QC', 'Québec'), ('SK', 'Saskatchewan'), ('YT', 'Yukon')]
     province = SelectField('Province', choices=provinces)
     submit = SubmitField('Submit for Approval')

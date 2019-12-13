@@ -1,0 +1,19 @@
+<div class="div-status-top">
+    <b>{{ statuses[tc.total_count].trails.name }}</b>
+                ({{ statuses[tc.total_count].trails.city }},
+                {{ statuses[tc.total_count].trails.province }})
+</div>
+
+{% for i in range(index) %}
+    {% if i < (index-1) %}
+    <div class="div-status-middle">
+    {% else %}
+    <div class="div-status-bottom">
+    {% endif %}
+        <b>{{ statuses[tc.total_count].body }}</b><br>
+        <div width="100%" style="text-align: right;">
+        <span style="color: #73abc2;"><b>{{ statuses[tc.total_count].author.username }}</b>,
+            {{ moment(statuses[tc.total_count].timestamp).fromNow() }}</span></div>
+        {% set tc.total_count= tc.total_count + 1 %}
+    </div>
+{% endfor %}

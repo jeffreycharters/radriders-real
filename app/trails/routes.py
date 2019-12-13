@@ -18,8 +18,10 @@ def index():
     if current_user.is_anonymous:
         statuses = Status.query.order_by(Status.timestamp.desc()).limit(10)
         return render_template('index.html', statuses=statuses, stranger=True)
-    all_updates = current_user.followed_statuses().all()
-    return render_template('index.html', statuses=all_updates)
+    trails_to_get = current_user.subscribed.all()
+    status_index, statuses = top_statuses(trails_to_get, 3)
+    #statuses = Status.query.order_by(Status.timestamp.desc()).limit(10)
+    return render_template('index.html', statuses=statuses, status_index=status_index)
 
 
 @trails_bp.route('/add_trail_system', methods=['GET', 'POST'])

@@ -7,7 +7,7 @@
 
 <h2 class="tagline">
     {% if stranger %}Crowdsourced Trail Conditions
-    {% else %}Latest updates for subscribed trails
+    {% else %}Latest 3 updates for subscribed trails
     {% endif %}
 </h2>
 
@@ -17,8 +17,9 @@
     <p>Please create an account to subscribe to specific trails!</p>
 {% endif %}
 
-{% for status in statuses %}
-    {% include '_status.html' %}
+{% set tc = namespace(total_count=0) %}
+{% for index in status_index %}
+        {% include '_idx_status.html' %}
 {% else %}
     <p>You aren't subscribed to any trails!</p>
     <p>Click <a href="{{ url_for('trails_bp.explore_trails') }}">here</a> for the trail list.</p>

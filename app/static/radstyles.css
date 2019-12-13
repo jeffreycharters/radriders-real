@@ -13,6 +13,16 @@ hr.dashed {
     border-radius: 8px 8px 0px 0px;
 }
 
+.div-status-middle {
+    background: #f1f1f1;
+    color: #0a2463;
+    padding: 5px 10px;
+    border: 1px solid #1a535C;
+    border-width: 0 1px 1px 1px;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
 .div-status-bottom {
   background: #f1f1f1;
   color: #0a2463;

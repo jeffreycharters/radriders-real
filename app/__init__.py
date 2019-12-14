@@ -1,19 +1,21 @@
+import os
+from logging.handlers import SMTPHandler, RotatingFileHandler
+import logging
+from config import Config
+from flask_moment import Moment
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from flask_moment import Moment
-from config import Config
-import logging
-from logging.handlers import SMTPHandler, RotatingFileHandler
-import os
+from flask_mail import Mail
 
-db = SQLAlchemy()
-migrate = Migrate()
-login = LoginManager()
-moment = Moment()
 bootstrap = Bootstrap()
+db = SQLAlchemy()
+login = LoginManager()
+mail = Mail()
+migrate = Migrate()
+moment = Moment()
 
 
 def create_app(config_class=Config):
@@ -23,6 +25,7 @@ def create_app(config_class=Config):
 
     db.init_app(app)
     bootstrap.init_app(app)
+    mail.init_app(app)
     migrate.init_app(app, db)
     moment.init_app(app)
     login.init_app(app)

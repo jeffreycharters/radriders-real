@@ -33,5 +33,7 @@
 </form>
 
 <p>New user? <a href="{{ url_for('users_bp.register') }}">Click to register!</a></p>
+<p> Forgot your password?
+<a href="{{ url_for('users_bp.reset_password_request') }}">Click to reset it</a>.
 
 {% endblock %}

@@ -1,7 +1,11 @@
+from flask import current_app as app
 from app import db, login
 from app.status.models import Status
 from flask_login import UserMixin
+from time import time
 from werkzeug.security import generate_password_hash, check_password_hash
+
+import jwt
 
 
 # Create the table to track status subscriptions
@@ -55,6 +59,20 @@ class User(UserMixin, db.Model):
         return Status.query.join(subscribers,
                                  (subscribers.c.subscribed_id == Status.trail_system)).filter(
             subscribers.c.subscriber_id == self.id).order_by(Status.timestamp.desc())
+
+    def get_reset_password_token(self, expires_in=600):
+        return jwt.encode(
+            {'reset_password': self.id, 'exp': time() + expires_in},
+            app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8')
+
+    @staticmethod
+    def verify_reset_password_token(token):
+        try:
+            id = jwt.decode(token, app.config['SECRET_KEY'],
+                            algorithms=['HS256'])['reset_password']
+        except:
+            return
+        return User.query.get(id)
 
 
 @login.user_loader

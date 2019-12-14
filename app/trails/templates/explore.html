@@ -55,7 +55,7 @@
         or <a href="{{ url_for('users_bp.login') }}">sign in</a> to subscribe to trail updates!</h3>
     {% endif %}
 
-    {% for trail in trails %}
+    {% for status in statuses %}
         {% include '_location.html' %}
     {% endfor %}
 

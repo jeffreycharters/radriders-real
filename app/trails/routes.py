@@ -61,9 +61,9 @@ def approve_trails():
 
 @trails_bp.route('/explore_trails')
 def explore_trails():
-    trails = Trails.query.filter_by(
-        approved=1).order_by(Trails.name.asc()).all()
-    return render_template('explore.html', title='All of the trails', trails=trails, user=current_user)
+    statuses = Status.query.join(Trails, Status.trail_system == Trails.id).group_by(
+        Trails.name).order_by(Trails.name).all()
+    return render_template('explore.html', title='All of the trails', statuses=statuses, user=current_user)
 
 
 @trails_bp.route('/reject_trails/<trail_id>')

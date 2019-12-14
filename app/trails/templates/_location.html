@@ -1,0 +1,22 @@
+
+
+<div class="div-status-top">
+    <table style="width:100%;">
+        <tr>
+            <td style="width:75%">
+                <b>{{ trail.name }}, {{ trail.province }}</b>
+            </td>
+            <td style="text-align:right;">
+                <span id="subscribe{{ trail.id }}">
+                {% if current_user.is_authenticated and not user.is_subscribed(trail) %}
+                    <a role="button" class="btn btn-info sub" href="{{ url_for('users_bp.subscribe', trail_id=trail.id) }}" id="trail{{ trail.id }}">&nbsp;Subscribe!&nbsp;</a>
+                {% elif current_user.is_authenticated %}
+                    <a role="button" class="btn btn-warning unsub" href="{{ url_for('users_bp.unsubscribe', trail_id=trail.id) }}" id="trail{{ trail.id}}">Unsubscribe!</a>                {% endif %}
+                </span>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="div-status-bottom">
+    Status
+</div>

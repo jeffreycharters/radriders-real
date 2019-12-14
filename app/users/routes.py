@@ -85,7 +85,7 @@ def reset_password_request():
                            title='Reset Password', form=form)
 
 
-@users_bp.route('/subscribe/<trail_id>', methods=['POST'])
+@users_bp.route('/subscribe/<trail_id>', methods=['GET', 'POST'])
 def subscribe(trail_id):
     trails = Trails.query.filter_by(id=trail_id).first()
     if trails is not None:
@@ -93,7 +93,7 @@ def subscribe(trail_id):
     return jsonify({'response': 'Subscribed!'})
 
 
-@users_bp.route('/unsubscribe/<trail_id>', methods=['POST'])
+@users_bp.route('/unsubscribe/<trail_id>', methods=['GET', 'POST'])
 def unsubscribe(trail_id):
     trails = Trails.query.filter_by(id=trail_id).first()
     if trails is not None:

@@ -29,7 +29,7 @@ hr.dashed {
 }
 
 .div-status-middle {
-    background: #f1f1f1;
+    position: relative;
     color: #0a2463;
     padding: 5px 10px;
     border: 1px solid #1a535C;
@@ -39,13 +39,26 @@ hr.dashed {
 }
 
 .div-status-bottom {
-  background: #f1f1f1;
-  color: #0a2463;
-  padding: 5px 10px;
-  border: 1px solid #1a535C;
-  border-width: 0 1px 1px 1px;
-  border-radius: 0px 0px 8px 8px;
-  margin-bottom: 15px;
+    position: relative;
+    color: #0a2463;
+    padding: 5px 10px;
+    border: 1px solid #1a535C;
+    border-width: 0 1px 1px 1px;
+    border-radius: 0px 0px 8px 8px;
+    margin-bottom: 15px;
+}
+
+/* This section sets the translucent background image */
+.div-status-bottom::before, .div-status-middle::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -10;
+    width: 100%;
+    height: 100%;
+    opacity: 0.08;
+    background: url('/static/trees-bg.png') #f1f1f1;
 }
 
 .outlined {

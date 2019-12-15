@@ -22,11 +22,6 @@ def admin():
                            trails_to_approve=trails_to_approve)
 
 
-@admin_bp.route('/faq')
-def faq():
-    return 'coming soon.'
-
-
 @admin_bp.route('/list_status')
 @login_required
 def list_status():

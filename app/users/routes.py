@@ -14,6 +14,11 @@ users_bp = Blueprint('users_bp', __name__,
                      static_folder='static')
 
 
+@users_bp.route('/faq')
+def faq():
+    return render_template('faq.html')
+
+
 @users_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:

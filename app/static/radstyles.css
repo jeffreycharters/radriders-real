@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:700|Permanent+Marker|Merriweather&display=swap');
 
+
+
+
 body{ 
     background:
         repeating-linear-gradient(
@@ -53,15 +56,29 @@ hr.dashed {
     1px 1px 0 #000;
 }
 
+
+.title-header a:link,
+.title-header a:visited {
+    color: #ff002b;
+    text-decoration: none;
+}
+
+.title-header a:hover {
+    color: rgb(51, 255, 0);
+    text-decoration: non;
+}
+
+.title-header a:active {
+    color: rgb(31, 153, 0);
+    text-decoration: none;
+}
+
 .title-header {
-    margin-top: 5px;
-    margin-bottom: 0;
-    padding-top: 0;
-    padding-bottom: 0;
+    margin: 0;
+    padding: 0;
     font-family: 'Permanent Marker';
     color: #ff002b;
-    text-align: center;
-    
+    text-align: center;   
 }
 
 .tagline {
@@ -69,4 +86,16 @@ hr.dashed {
     text-align: center;
     font-weight: bold;
     font-size: 120%;
+}
+
+.well {
+    border-radius: 6px;
+    background:
+    repeating-linear-gradient(
+        13deg,
+        #fffefa,
+        #fffefa 10px,
+        #fcfbf8 10px,
+        #fcfbf8 20px
+    );
 }

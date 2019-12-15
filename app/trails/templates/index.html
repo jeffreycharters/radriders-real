@@ -12,17 +12,21 @@
 
 {% if stranger %}
     {% include '_signup.html' %}
-    <h3>What We Do</h3>
-    <p>We are a community of mountain bikers who pool our 
-    resources to keep everyone informed of current trail
-    conditions. This helps riders to plan accordingly and even
-    cancel a ride if it might damage trails.</p>
+    <div class="well well-sm">
+        <h3>What We Do</h3>
+        <p>We are a community of mountain bikers who pool our 
+        resources to keep everyone informed of current trail
+        conditions. This helps riders to plan accordingly and even
+        cancel a ride if it might damage trails.</p>
+    </div>
 
-    <h3>More Information</h3>
-    <p>We've crafted an <a href="{{ url_for('admin_bp.faq') }}">FAQ</a>
-    section to answer the most common questions, including our
-    privacy policy. Here are the last few status updates from our
-    network:</p>
+    <div class="well well-sm">
+        <h3>More Information</h3>
+        <p>We've crafted an <a href="{{ url_for('users_bp.faq') }}">FAQ</a>
+        section to answer the most common questions, including our
+        privacy policy. Here are the last few status updates from our
+        network:</p>
+    </div>
     <hr>
 
     {% for status in statuses %}

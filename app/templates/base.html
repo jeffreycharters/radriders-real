@@ -44,12 +44,18 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{{ url_for('trails_bp.index') }}">Latest Updates</a>
+                    {% if current_user.is_anonymous %}
+                        <a class="navbar-brand" href="{{ url_for('trails_bp.explore_trails') }}">Trail List</a>
+                    {% else %}
+                        <a class="navbar-brand" href="{{ url_for('trails_bp.index') }}">Latest Updates</a>
+                    {% endif %}
                 </div>
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
+                        {% if current_user.is_authenticated %}
                         <li><a href="{{ url_for('trails_bp.explore_trails')}}">Trail List</a></li>
+                        {% endif %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if current_user.is_authenticated %}
@@ -82,8 +88,12 @@
         {% endwith %}
 
 
-        <h1 class="title-header outlined">RadRiders MTB</h1>
+        <h1 class="title-header outlined">
+            <a href="{{ url_for('trails_bp.index') }}">RadRiders MTB</a>
+        </h1>
 
-            {% block app_content %}{% endblock %}
+        {% block app_content %}{% endblock %}
+        
+        {% include 'footer.html' %}
             </div>
     {% endblock %}

@@ -79,3 +79,19 @@ def reject_trails(trail_id):
     db.session.commit()
     flash(f'Successfully removed from database.')
     return redirect(url_for('trails_bp.approve_trails'))
+
+
+@trails_bp.route('/trails/<trail_id>')
+def trails(trail_id):
+    statuses = Status.query.filter(
+        Status.trail_system == trail_id).order_by(Status.timestamp.desc()).limit(10).all()
+    if not statuses:
+        return render_template('404.html'), 404
+    start_date = Status.query.filter_by(
+        trail_system=trail_id).order_by(Status.timestamp.asc()).first()
+    status_count = Status.query.filter_by(trail_system=trail_id).count()
+    author_count = Status.query.filter_by(
+        trail_system=trail_id).group_by(Status.user_id).count()
+    return render_template('trail_system.html', statuses=statuses,
+                           status_count=status_count, author_count=author_count,
+                           start_date=start_date)

@@ -4,7 +4,7 @@
     <table style="width:100%;">
         <tr>
             <td style="width:75%">
-                <b>{{ status.trails.name }}</b> ({{ status.trails.city}}, {{ status.trails.province }})
+                <b><a href="{{ url_for('trails_bp.trails', trail_id=status.trails.id) }}">{{ status.trails.name }}</b></a> ({{ status.trails.city}}, {{ status.trails.province }})
             </td>
             <td style="text-align:right;">
                 <span id="subscribe{{ status.trail_system }}">

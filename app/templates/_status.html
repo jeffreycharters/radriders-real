@@ -1,5 +1,5 @@
 <div class="div-status-top">
-    <b>{{ status.trails.name }}</b>
+    <a href="{{ url_for('trails_bp.trails', trail_id=status.trails.id) }}"><b>{{ status.trails.name }}</b></a>
                 ({{ status.trails.city }}, {{ status.trails.province }})
 </div>
 

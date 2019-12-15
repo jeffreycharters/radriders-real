@@ -61,6 +61,18 @@ hr.dashed {
     background: url('/static/trees-bg.png') #f1f1f1;
 }
 
+.div-status-top a:link,
+.div-status-top a:visited,
+.div-status-top a:active {
+    color: #f1f1f1;
+    text-decoration: none;
+}
+
+.div-status-top a:hover {
+    color: #d5e1e6;
+
+}
+
 .outlined {
     text-shadow:
     -1px -1px 0 #000,

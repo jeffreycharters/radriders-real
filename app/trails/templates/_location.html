@@ -18,8 +18,13 @@
     </table>
 </div>
 <div class="div-status-bottom">
-        <b>{{ status.body }}</b><br>
-        <div width="100%" style="text-align: right;">
+    <b>{{ status.body }}</b><br>
+    <div width="100%" style="text-align: right;">
         <span style="color: #73abc2;"><b>{{ status.author.username }}</b>,
-            {{ moment(status.timestamp).fromNow() }}</span></div>
+            {{ moment(status.timestamp).fromNow() }}
+        </span>
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('status_bp.report_status', status_id=status.id) }}" class="text-warning">[Report]</a>
+        {% endif %}
     </div>
+</div>

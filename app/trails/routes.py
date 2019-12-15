@@ -16,7 +16,8 @@ trails_bp = Blueprint('trails_bp', __name__,
 @trails_bp.route('/index')
 def index():
     if current_user.is_anonymous:
-        statuses = Status.query.order_by(Status.timestamp.desc()).limit(10)
+        statuses = Status.query.order_by(
+            Status.timestamp.desc()).filter_by(active=True).limit(10)
         return render_template('index.html', statuses=statuses, stranger=True)
     trails_to_get = current_user.subscribed.all()
     status_index, statuses = top_statuses(trails_to_get, 3)
@@ -46,6 +47,9 @@ def approve_trails():
     if form.validate_on_submit():
         trails = Trails.query.filter_by(name=form.trail_name.data).first()
         trails.approved = 1
+        welcome_status = Status(body='Hi, I\'m ' + trails.name +
+                                ', I\'m new here! Please update my status!', user_id=1, trail_system=trails.id)
+        db.session.add(welcome_status)
         db.session.commit()
         flash(f'{trails.name} approved!')
         return redirect(url_for('admin_bp.admin'))
@@ -62,7 +66,7 @@ def approve_trails():
 @trails_bp.route('/explore_trails')
 def explore_trails():
     statuses = Status.query.join(Trails, Status.trail_system == Trails.id).group_by(
-        Trails.name).order_by(Trails.name).all()
+        Trails.name).filter(Status.active == True).order_by(Trails.name).all()
     return render_template('explore.html', title='All of the trails', statuses=statuses, user=current_user)
 
 

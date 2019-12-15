@@ -29,6 +29,21 @@ def new_status():
     return render_template('new.html', title='New Trail Status', form=form)
 
 
+@status_bp.route('/report/<status_id>')
+def report_status(status_id):
+    status = Status.query.filter_by(id=status_id).first()
+    if status:
+        status.reported += 1
+        if status.reported > 4:
+            status.deactivate()
+        db.session.commit()
+        flash('This status has been brought to the moderators\' attention. Justice will \
+            be administered swiftly and harshly. Thank you for narcking.')
+    else:
+        flash('Error! Not reported.')
+    return redirect(url_for('trails_bp.index'))
+
+
 @status_bp.route('/status', methods=['GET', 'POST'])
 def login():
     return 'Testing'

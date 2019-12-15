@@ -12,8 +12,11 @@
     {% endif %}
         <b>{{ statuses[tc.total_count].body }}</b><br>
         <div width="100%" style="text-align: right;">
-        <span style="color: #73abc2;"><b>{{ statuses[tc.total_count].author.username }}</b>,
-            {{ moment(statuses[tc.total_count].timestamp).fromNow() }}</span></div>
+            <span style="color: #73abc2;">
+                <b>{{ statuses[tc.total_count].author.username }}</b>,
+                {{ moment(statuses[tc.total_count].timestamp).fromNow() }}</span>
+                <a href="{{ url_for('status_bp.report_status', status_id=statuses[tc.total_count].trail_system) }}" class="text-warning">[Report]</a>
+        </div>
         {% set tc.total_count= tc.total_count + 1 %}
     </div>
 {% endfor %}

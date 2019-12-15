@@ -1,5 +1,17 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:700|Permanent+Marker|Merriweather&display=swap');
 
+body{ 
+    background:
+        repeating-linear-gradient(
+            -13deg,
+            #f2f7f7,
+            #f2f7f7 10px,
+            #f6f9fa 10px,
+            #f6f9fa 20px
+        );
+}
+
+
 hr.dashed {
     border: 0;
     border-bottom: 1px dashed #ccc;

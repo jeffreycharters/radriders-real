@@ -1,6 +1,6 @@
     {% if current_user.is_anonymous %}
         <div class="alert alert-success">
             <p><a href="{{ url_for('users_bp.register') }}" role="button" class="btn-sm btn-primary">Register</a>
-            or <a href="{{ url_for('users_bp.login') }}"  role="button" class="btn-sm btn-primary btn-inf">Sign In</a> to subscribe to trail updates!</p>
+            or <a href="{{ url_for('users_bp.login') }}"  role="button" class="btn-sm btn-primary btn-inf">Sign In</a> to personalize!</p>
         </div>
     {% endif %}

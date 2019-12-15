@@ -22,12 +22,17 @@ def admin():
                            trails_to_approve=trails_to_approve)
 
 
+@admin_bp.route('/faq')
+def faq():
+    return 'coming soon.'
+
+
 @admin_bp.route('/list_status')
 @login_required
 def list_status():
     if not current_user.admin:
         return redirect(url_for('trails_bp.index'))
-    items = Status.query.all()
+    items = Status.query.order_by(Status.timestamp.desc()).all()
     return render_template('list_status.html', title='Status List', items=items)
 
 

@@ -2,9 +2,6 @@
 
 {% block app_content %}
 
-<h1 class="title-header outlined">RadRiders MTB</h1>
-
-
 <h2 class="tagline">
     {% if stranger %}Crowdsourced Trail Conditions
     {% else %}Latest 3 updates for subscribed trails
@@ -14,16 +11,33 @@
 <hr class="dashed">
 
 {% if stranger %}
-    <p>Please create an account to subscribe to specific trails!</p>
+    {% include '_signup.html' %}
+    <h3>What We Do</h3>
+    <p>We are a community of mountain bikers who pool our 
+    resources to keep everyone informed of current trail
+    conditions. This helps riders to plan accordingly and even
+    cancel a ride if it might damage trails.</p>
+
+    <h3>More Information</h3>
+    <p>We've crafted an <a href="{{ url_for('admin_bp.faq') }}">FAQ</a>
+    section to answer the most common questions, including our
+    privacy policy. Here are the last few status updates from our
+    network:</p>
+    <hr>
+
+    {% for status in statuses %}
+        {% include '_status.html' %}
+    {% endfor %}
 {% endif %}
 
-{% set tc = namespace(total_count=0) %}
-{% for index in status_index %}
-        {% include '_idx_status.html' %}
-{% else %}
-    <p>You aren't subscribed to any trails!</p>
-    <p>Click <a href="{{ url_for('trails_bp.explore_trails') }}">here</a> for the trail list.</p>
-{% endfor %}
-
+{% if current_user.is_authenticated %}
+    {% set tc = namespace(total_count=0) %}
+    {% for index in status_index %}
+            {% include '_idx_status.html' %}
+    {% else %}
+        <p>You aren't subscribed to any trails!</p>
+        <p>Click <a href="{{ url_for('trails_bp.explore_trails') }}">here</a> for the trail list.</p>
+    {% endfor %}
+{% endif %}
 
 {% endblock %}

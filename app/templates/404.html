@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block app_content %}
-    <h1>File not found</h1>
-    <p><a href="{{ url_for('trails_bp.index') }}">Back</a></p>
+    <h2 class="tagline">File not found</h2>
+    <hr>
+    <p style="text-align:center;">
+    <a href="{{ url_for('trails_bp.index') }}" role="button" class="btn btn-primary">Back</a></p>
 {% endblock %}

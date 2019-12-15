@@ -10,7 +10,7 @@
         var dest = document.getElementById('subscribe'+id);
         $.post('/subscribe/'+id).done(function(response) {
             console.log(dest);
-            html = '<a role="button" class="btn btn-success unsub" id=trail"' + id + '">Subscribed!</a>';
+            html = '<a role="button" class="btn btn-success unsub" id="trail' + id + '">Subscribed!</a>';
             dest.innerHTML = html;
             }).fail(function() {
                 dest.innerHTML = 'Error! Not subscribed!';
@@ -22,7 +22,7 @@
         var dest = document.getElementById('subscribe'+id);
         $.post('/unsubscribe/'+id).done(function(response) {
             console.log(dest);
-            html = '<a role="button" class="btn btn-danger sub" id=trail"' + id + '">Unsubscribed!</a>';
+            html = '<a role="button" class="btn btn-danger sub" id="trail' + id + '">Unsubscribed!</a>';
             dest.innerHTML = html;
             }).fail(function() {
                 dest.innerHTML = 'Error! Still subscribed!';
@@ -48,12 +48,9 @@
 </script>
 
 
-<h1>All currently monitored trails</h1>
+<h2 class="tagline">All currently monitored trails</h2>
 
-    {% if current_user.is_anonymous %}
-        <h3><a href="{{ url_for('users_bp.register') }}">Register</a>
-        or <a href="{{ url_for('users_bp.login') }}">sign in</a> to subscribe to trail updates!</h3>
-    {% endif %}
+    {% include '_signup.html' %}
 
     {% for status in statuses %}
         {% include '_location.html' %}

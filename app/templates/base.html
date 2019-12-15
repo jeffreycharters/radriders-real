@@ -72,13 +72,17 @@
 
     {% block content %}
         <div class="container" style="max-width: 640px;">
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert alert-info" role="alert">{{ message }}</div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-info" role="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+
+        <h1 class="title-header outlined">RadRiders MTB</h1>
 
             {% block app_content %}{% endblock %}
             </div>

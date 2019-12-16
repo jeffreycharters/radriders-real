@@ -6,6 +6,8 @@ class Trails(db.Model):
     name = db.Column(db.String(64), index=True)
     city = db.Column(db.String(64))
     province = db.Column(db.String(2))
+    trailforks = db.Column(
+        db.String(128), default='https://www.trailforks.com')
     approved = db.Column(db.Boolean, default=False)
     active = db.Column(db.Boolean, default=True)
     statuses = db.relationship('Status', backref='trails', lazy='dynamic')

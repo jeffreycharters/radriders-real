@@ -12,4 +12,7 @@ class TrailAddForm(FlaskForm):
     provinces = [('ON', 'Ontario'), ('AB', 'Alberta'), ('BC', 'British CColumbia'), ('MB', 'Manitoba'), ('NB', 'New Brunswick'), ('NL', 'Newfoundland & Labrador'),
                  ('NS', 'Nove Scotia'), ('NT', 'Northwest Territories'), ('NU', 'Nunavut'), ('PE', 'Prince Edward Island'), ('QC', 'Québec'), ('SK', 'Saskatchewan'), ('YT', 'Yukon')]
     province = SelectField('Province', choices=provinces)
+    trailforks = StringField(
+        'Trailforks Link (e.g. https://www.trailforks.com/dir/trails)',
+        render_kw={'placeholder': 'Leave blank if feeling lazy.'})
     submit = SubmitField('Submit for Approval')

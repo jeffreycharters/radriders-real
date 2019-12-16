@@ -7,7 +7,9 @@
 <div class="well">
     <p>These trails have had <b>{{ status_count }} update{% if status_count > 1 %}s{% endif %}</b> from <b>{{ author_count }} contributor{% if author_count > 1 %}s{% endif %}</b>
     since <b>{{ moment(start_date.timestamp).format('LL') }}.</b><br></p>
-    <p class="text-center" style="margin-bottom: 0px;"><a role="button" class="btn btn-default" href="http://trailforks.com">See them on Trailforks!</a></p>
+    <p class="text-center" style="margin-bottom: 0px;"><a role="button" class="btn btn-default"
+        href="{% if statuses[0].trails.trailforks %}{{ statuses[0].trails.trailforks }}{% else %}https://www.trailforks.com{% endif %}"
+        target="_blank" rel="noopener noreferrer">See them on Trailforks!</a></p>
 </div>
 
 <hr class="dashed">

@@ -84,7 +84,7 @@ def reject_trails(trail_id):
 @trails_bp.route('/trails/<trail_id>')
 def trails(trail_id):
     statuses = Status.query.filter(
-        Status.trail_system == trail_id).order_by(Status.timestamp.desc()).limit(10).all()
+        Status.trail_system == trail_id).filter(Status.active).order_by(Status.timestamp.desc()).limit(10).all()
     if not statuses:
         return render_template('404.html'), 404
     start_date = Status.query.filter_by(

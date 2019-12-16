@@ -23,7 +23,7 @@ hr.dashed {
 
 .div-status-top {
     padding: 5px 10px;
-    background: #247ba0;
+    background: #24799e;
     color: #f1f1f1;
     border-radius: 8px 8px 0px 0px;
 }
@@ -61,15 +61,15 @@ hr.dashed {
     background: url('/static/trees-bg.png') #f1f1f1;
 }
 
-.div-status-top a:link,
-.div-status-top a:visited,
-.div-status-top a:active {
+.div-status-top b a:link,
+.div-status-top b a:visited,
+.div-status-top b a:active {
     color: #f1f1f1;
-    text-decoration: none;
+    text-decoration: underline #96c4d6;
 }
 
-.div-status-top a:hover {
-    color: #d5e1e6;
+.div-status-top b a:hover {
+    color: #c1ccd1;
 
 }
 

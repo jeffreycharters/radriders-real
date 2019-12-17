@@ -53,6 +53,7 @@ def approve_trails():
         welcome_status = Status(author=radbot, body='Hi, I\'m ' + trails.name +
                                 ', I\'m new here! Please update my status!', user_id=1, trail_system=trails.id)
         db.session.add(welcome_status)
+        radbot.subscribe(trails)
         db.session.commit()
         flash(f'{trails.name} approved!')
         return redirect(url_for('admin_bp.admin'))

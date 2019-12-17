@@ -13,7 +13,7 @@
         <b>{{ statuses[tc.total_count].body }}</b><br>
         <div width="100%" style="text-align: right;">
             <span style="color: #73abc2;">
-                <b>{{ statuses[tc.total_count].author.username }}</b>,
+                <b><a href="{{ url_for('users_bp.user', username=statuses[tc.total_count].author.username) }}" class="user-link">{{ statuses[tc.total_count].author.username }}</a></b>,
                 {{ moment(statuses[tc.total_count].timestamp).fromNow() }}</span>
                 <a href="{{ url_for('status_bp.report_status', status_id=statuses[tc.total_count].id) }}" class="text-warning">[Report]</a>
         </div>

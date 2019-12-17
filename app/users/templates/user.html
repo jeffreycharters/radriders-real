@@ -2,8 +2,20 @@
 
 {% block app_content %}
 
-<h2 class="tagline">{{ username}}'s profile</h2>
-<hr>
-Coming soon...
+<h2 class="tagline">{{ user.username}}'s profile</h2>
+<hr class="dashed">
+
+<div class="well" style="padding-bottom: 4px;">
+    <p class="text-center">{% if user == current_user %}You've{% else %}This user has{% endif %} posted <b>{{ total_count }}</b> status updates.</p>
+    <p class="text-center">{% if user == current_user %}<a href="{{ url_for('users_bp.edit_profile', user_id=user.id) }}"
+    role="button" class="btn btn-info">Edit your profile</a>{% endif %}
+</div>
+
+
+{% if statuses %}
+    {% for status in statuses %}
+        {% include '_status.html' %}
+    {% endfor %}
+{% endif %}
 
 {% endblock %}

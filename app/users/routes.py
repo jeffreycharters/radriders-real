@@ -7,11 +7,18 @@ from app.users.forms import LoginForm, RegistrationForm, ResetPasswordRequestFor
 from app.users.forms import ResetPasswordForm
 from app.users.models import User
 from app.trails.models import Trails
+from app.status.models import Status
 from werkzeug.urls import url_parse
 
 users_bp = Blueprint('users_bp', __name__,
                      template_folder='templates',
                      static_folder='static')
+
+
+@users_bp.route('/edit_profile/<user_id>')
+@login_required
+def edit_profile(user_id):
+    return 'coming soon!'
 
 
 @users_bp.route('/faq')
@@ -106,10 +113,11 @@ def unsubscribe(trail_id):
     return jsonify({'response': 'Unsubscribed!'})
 
 
-@users_bp.route('/user/<username>', methods=['GET'])
+@users_bp.route('/users/<username>', methods=['GET'])
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    status = [
-        {'author': user, 'body': 'Test status 1'}
-    ]
-    return render_template('user.html', username=user.username)
+    total_count = Status.query.filter_by(author=user).count()
+    statuses = Status.query.filter_by(author=user).order_by(
+        Status.timestamp.desc()).paginate(1, 3, False)
+    return render_template('user.html', user=user, statuses=statuses.items,
+                           title=user.username+'\'s Profile', total_count=total_count)

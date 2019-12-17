@@ -111,6 +111,15 @@ hr.dashed {
     font-size: 120%;
 }
 
+.user-link, .user-link:visited  {
+    color: #73abc2;
+    text-decoration: underline #b4dbeb;
+}
+
+.user-link:hover {
+    color: rgb(60, 132, 143);
+}
+
 .well {
     border-radius: 6px;
     background:

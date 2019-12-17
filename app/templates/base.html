@@ -68,7 +68,7 @@
                         {% if current_user.is_authenticated %}
                             <li><a href="{{ url_for('status_bp.new_status') }}">Update Status</a></li>
                             <li><a href="{{ url_for('trails_bp.add_trails') }}">Add Trails</a></li>
-                            <li><a href="{{ url_for('users_bp.edit_profile', user_id=current_user.id) }}">Profile</a></li>
+                            <li><a href="{{ url_for('users_bp.users', username=current_user.username) }}">Profile</a></li>
                         {% endif %}
                         {% if current_user.admin %}
                             <li><a href="{{ url_for('admin_bp.admin') }}">Admin Panel</a></li>

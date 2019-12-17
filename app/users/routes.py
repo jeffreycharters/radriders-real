@@ -4,7 +4,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app import db
 from app.email import send_password_reset_email
 from app.users.forms import LoginForm, RegistrationForm, ResetPasswordRequestForm
-from app.users.forms import ResetPasswordForm, EditProfileForm
+from app.users.forms import ResetPasswordForm, EditProfileForm, ChangePasswordForm
 from app.users.models import User
 from app.trails.models import Trails
 from app.status.models import Status
@@ -18,7 +18,17 @@ users_bp = Blueprint('users_bp', __name__,
 @users_bp.route('/change_password/<user_id>', methods=['GET', 'POST'])
 @login_required
 def change_password(user_id):
-    return 'hi'
+    user = User.query.filter_by(id=user_id).first()
+    if user != current_user:
+        return redirect(url_for('trails_bp.index'))
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        user.set_password(form.new_password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Password successfully changed!')
+        redirect(url_for('users_bp.users', username=user.username))
+    return render_template('change_password.html', form=form)
 
 
 @users_bp.route('/edit_profile/<user_id>', methods=['GET', 'POST'])

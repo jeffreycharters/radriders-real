@@ -2,6 +2,21 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Length
 from app.users.models import User
+from flask_login import current_user
+
+
+class ChangePasswordForm(FlaskForm):
+    current_password = PasswordField('Current Password', validators=[
+        DataRequired()])
+    new_password = PasswordField('New Password', validators=[DataRequired()])
+    new_password2 = PasswordField(
+        'Repeat New Password', validators=[DataRequired(), EqualTo('new_password')])
+    submit = SubmitField('Change Password')
+
+    def validate_current_password(self, username):
+        user = User.query.filter_by(username=current_user.username).first()
+        if not user.check_password(self.current_password.data):
+            raise ValidationError('Wrong password')
 
 
 class EditProfileForm(FlaskForm):

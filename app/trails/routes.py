@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect, flash, url_for
 from flask import current_app as app
+from flask import request
 from flask_login import login_required, current_user
 from app import db
 from app.trails.models import Trails
@@ -83,15 +84,26 @@ def reject_trails(trail_id):
 
 @trails_bp.route('/trails/<trail_id>')
 def trails(trail_id):
+    page = request.args.get('page', 1, type=int)
     statuses = Status.query.filter(
-        Status.trail_system == trail_id).filter(Status.active).order_by(Status.timestamp.desc()).limit(10).all()
+        Status.trail_system == trail_id).filter(Status.active).order_by(
+            Status.timestamp.desc()).paginate(page, app.config['STATUSES_PER_PAGE'], False)
     if not statuses:
         return render_template('404.html'), 404
+
+    next_url = url_for('trails_bp.trails', trail_id=trail_id, page=statuses.next_num) \
+        if statuses.has_next else None
+    prev_url = url_for('trails_bp.trails', trail_id=trail_id, page=statuses.prev_num) \
+        if statuses.has_prev else None
+
     start_date = Status.query.filter_by(
         trail_system=trail_id).order_by(Status.timestamp.asc()).first()
     status_count = Status.query.filter_by(trail_system=trail_id).count()
     author_count = Status.query.filter_by(
         trail_system=trail_id).group_by(Status.user_id).count()
-    return render_template('trail_system.html', statuses=statuses,
-                           status_count=status_count, author_count=author_count,
-                           start_date=start_date)
+    trails_name = statuses.items[0].trails.name
+
+    return render_template('trail_system.html', statuses=statuses.items,
+                           title=trails_name+' Status', status_count=status_count,
+                           author_count=author_count, start_date=start_date,
+                           next_url=next_url, prev_url=prev_url)

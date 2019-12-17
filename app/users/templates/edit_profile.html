@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+<h2 class="tagline">Editing {{ user.username }}'s existence</h2>
+<hr class="dashed">
+
+{{ wtf.quick_form(form) }}
+
+
+{% endblock %}

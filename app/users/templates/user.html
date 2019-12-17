@@ -6,9 +6,13 @@
 <hr class="dashed">
 
 <div class="well" style="padding-bottom: 4px;">
+    {% if user.about_me %} <p><b>About me:</b> "{{ user.about_me }}"</p> {% endif %}
     <p class="text-center">{% if user == current_user %}You've{% else %}This user has{% endif %} posted <b>{{ total_count }}</b> status updates.</p>
     <p class="text-center">{% if user == current_user %}<a href="{{ url_for('users_bp.edit_profile', user_id=user.id) }}"
-    role="button" class="btn btn-info">Edit your profile</a>{% endif %}
+    role="button" class="btn btn-info">Edit your profile</a> 
+    <a href="{{ url_for('users_bp.change_password', user_id=user.id) }}"
+    role="button" class="btn btn-info">Change your password</a>
+    {% endif %}
 </div>
 
 
@@ -17,5 +21,7 @@
         {% include '_status.html' %}
     {% endfor %}
 {% endif %}
+
+{% include '_pagination.html' %}
 
 {% endblock %}

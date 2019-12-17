@@ -4,7 +4,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app import db
 from app.email import send_password_reset_email
 from app.users.forms import LoginForm, RegistrationForm, ResetPasswordRequestForm
-from app.users.forms import ResetPasswordForm
+from app.users.forms import ResetPasswordForm, EditProfileForm
 from app.users.models import User
 from app.trails.models import Trails
 from app.status.models import Status
@@ -15,10 +15,30 @@ users_bp = Blueprint('users_bp', __name__,
                      static_folder='static')
 
 
-@users_bp.route('/edit_profile/<user_id>')
+@users_bp.route('/change_password/<user_id>', methods=['GET', 'POST'])
+@login_required
+def change_password(user_id):
+    return 'hi'
+
+
+@users_bp.route('/edit_profile/<user_id>', methods=['GET', 'POST'])
 @login_required
 def edit_profile(user_id):
-    return 'coming soon!'
+    user = User.query.filter_by(id=user_id).first()
+    if user != current_user:
+        return redirect(url_for('trails_bp.index'))
+    form = EditProfileForm(current_user.username)
+    if form.validate_on_submit():
+        user.username = form.username.data
+        user.email = form.email.data
+        user.about_me = form.about_me.data
+        db.session.add(user)
+        db.session.commit()
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+        form.about_me.data = current_user.about_me
+    return render_template('edit_profile.html', user=user, form=form)
 
 
 @users_bp.route('/faq')
@@ -114,10 +134,19 @@ def unsubscribe(trail_id):
 
 
 @users_bp.route('/users/<username>', methods=['GET'])
-def user(username):
+def users(username):
     user = User.query.filter_by(username=username).first_or_404()
     total_count = Status.query.filter_by(author=user).count()
+    page = request.args.get('page', 1, type=int)
     statuses = Status.query.filter_by(author=user).order_by(
-        Status.timestamp.desc()).paginate(1, 3, False)
+        Status.timestamp.desc()).paginate(page, app.config['STATUSES_PER_PAGE'], False)
+
+    username = user.username
+    next_url = url_for('users_bp.users', username=username, page=statuses.next_num) \
+        if statuses.has_next else None
+    prev_url = url_for('users_bp.users', username=username, page=statuses.prev_num) \
+        if statuses.has_prev else None
+
     return render_template('user.html', user=user, statuses=statuses.items,
-                           title=user.username+'\'s Profile', total_count=total_count)
+                           title=user.username+'\'s Profile', total_count=total_count,
+                           prev_url=prev_url, next_url=next_url)

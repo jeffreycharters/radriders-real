@@ -5,6 +5,7 @@ from flask_login import login_required, current_user
 from app import db
 from app.trails.models import Trails
 from app.status.models import Status
+from app.users.models import User
 from app.status.top import top_statuses
 from app.trails.forms import TrailAddForm
 
@@ -48,7 +49,8 @@ def approve_trails():
     if form.validate_on_submit():
         trails = Trails.query.filter_by(name=form.trail_name.data).first()
         trails.approved = 1
-        welcome_status = Status(body='Hi, I\'m ' + trails.name +
+        radbot = User.query.filter_by(username='RadBot').first()
+        welcome_status = Status(author=radbot, body='Hi, I\'m ' + trails.name +
                                 ', I\'m new here! Please update my status!', user_id=1, trail_system=trails.id)
         db.session.add(welcome_status)
         db.session.commit()

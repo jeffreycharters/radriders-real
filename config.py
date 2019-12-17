@@ -21,4 +21,4 @@ class Config(object):
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     ADMINS = ['hisroyalradness@gmail.com']
 
-    STATUSES_PER_PAGE = 3
+    STATUSES_PER_PAGE = 25

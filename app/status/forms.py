@@ -9,3 +9,7 @@ class NewStatusForm(FlaskForm):
     body = TextAreaField('Status', validators=[DataRequired(), Length(min=1, max=280)],
                          render_kw={'placeholder': 'No emojis allowed! For now, at least.'})
     submit = SubmitField('Add Status')
+
+    def validate_trails(self, trails):
+        if trails.data == -666:
+            raise ValidationError('Come on, pick a real trail.')

@@ -146,9 +146,10 @@ def unsubscribe(trail_id):
 @users_bp.route('/users/<username>', methods=['GET'])
 def users(username):
     user = User.query.filter_by(username=username).first_or_404()
-    total_count = Status.query.filter_by(author=user).count()
+    total_count = Status.query.filter(
+        Status.active).filter_by(author=user).count()
     page = request.args.get('page', 1, type=int)
-    statuses = Status.query.filter_by(author=user).order_by(
+    statuses = Status.query.filter(Status.active).filter_by(author=user).order_by(
         Status.timestamp.desc()).paginate(page, app.config['STATUSES_PER_PAGE'], False)
 
     username = user.username

@@ -16,6 +16,14 @@ subscribers = db.Table('subscribers',
                                  db.ForeignKey('trails.id'))
                        )
 
+# Create the table to track reported statuses
+reporters = db.Table('reporters',
+                     db.Column('reporter_id', db.Integer,
+                               db.ForeignKey('user.id')),
+                     db.Column('reported_id', db.Integer,
+                               db.ForeignKey('status.id'))
+                     )
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -30,6 +38,10 @@ class User(UserMixin, db.Model):
     subscribed = db.relationship(
         'Trails', secondary=subscribers,
         backref=db.backref('subscribed', lazy='dynamic'), lazy='dynamic')
+
+    reported = db.relationship(
+        'Status', secondary=reporters,
+        backref=db.backref('reporter', lazy='dynamic'), lazy='dynamic')
 
     def __repr__(self):
         return f'<user { self.username }>'
@@ -60,6 +72,14 @@ class User(UserMixin, db.Model):
         return Status.query.join(subscribers,
                                  (subscribers.c.subscribed_id == Status.trail_system)).filter(
             subscribers.c.subscriber_id == self.id).order_by(Status.timestamp.desc())
+
+    def report(self, status):
+        if not self.has_reported(status):
+            self.reported.append(status)
+            db.session.commit()
+
+    def has_reported(self, status):
+        return self.reported.filter(reporters.c.reported_id == status.id).count() > 0
 
     def get_reset_password_token(self, expires_in=600):
         return jwt.encode(

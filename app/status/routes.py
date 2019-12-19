@@ -39,12 +39,13 @@ def new_status():
 def report_status(status_id):
     status = Status.query.filter_by(id=status_id).first()
     if status:
-        status.reported += 1
-        if status.reported > 4:
-            status.deactivate()
-        db.session.commit()
-        flash('This status has been brought to the moderators\' attention. Justice will \
-            be administered swiftly and harshly. Thank you for narcking.')
+        if current_user.has_reported(status):
+            flash('Already reported. Go enjoy a COCA COLA!!', 'warning')
+        else:
+            current_user.report(status)
+            flash('This status has been brought to the moderators\' attention. Justice will \
+                be administered swiftly and harshly. Thank you for narcking.')
+            status.deactivate_if_necessary()
     else:
         flash('Error! Not reported.')
     return redirect(url_for('trails_bp.index'))

@@ -69,8 +69,12 @@ def approve_trails():
 
 @trails_bp.route('/explore_trails')
 def explore_trails():
-    statuses = Status.query.join(Trails, Status.trail_system == Trails.id).group_by(
-        Trails.name).filter(Status.active == True).order_by(Trails.name).all()
+    all_trail_names = [row.name for row in Trails.query.distinct().all()]
+    all_trail_names.sort()
+    statuses = []
+    for name in all_trail_names:
+        statuses.append(Status.query.join(Trails, (Status.trail_system == Trails.id)).filter(Status.active).filter(Trails.name == name).order_by(
+            Status.timestamp.desc()).first())
     return render_template('explore.html', title='All of the trails', statuses=statuses, user=current_user)
 
 

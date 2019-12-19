@@ -10,7 +10,6 @@ class Status(db.Model):
     trail_system = db.Column(
         db.Integer, db.ForeignKey('trails.id'), nullable=False)
     active = db.Column(db.Boolean, default=True)
-    reported = db.Column(db.Integer, default=0)
 
     def __repr__(self):
         return f'<Status {self.author, self.trails, self.body }>'
@@ -24,3 +23,8 @@ class Status(db.Model):
         if self.active:
             self.active = False
             db.session.commit()
+
+    def deactivate_if_necessary(self):
+        report_count = self.reporter.count()
+        if report_count > 4:
+            self.deactivate()

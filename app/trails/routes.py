@@ -34,7 +34,7 @@ def index():
 def add_trails():
     form = TrailAddForm()
     if form.validate_on_submit():
-        trails = Trails(name=form.trail_name.data,
+        trails = Trails(name=form.trail_name.data, trailforks=form.trailforks.data,
                         city=form.city.data, province=form.province.data)
         db.session.add(trails)
         db.session.commit()
@@ -49,7 +49,10 @@ def approve_trails():
     trails = Trails.query.filter_by(approved=0).first()
     form = TrailAddForm()
     if form.validate_on_submit():
-        trails = Trails.query.filter_by(name=form.trail_name.data).first()
+        trails.name = form.trail_name.data
+        trails.city = form.city.data
+        trails.province = form.province.data
+        trails.trailforks = form.trailforks.data
         trails.approved = 1
         radbot = User.query.filter_by(username='RadBot').first()
         welcome_status = Status(author=radbot, body='Hi, I\'m ' + trails.name +
@@ -59,6 +62,7 @@ def approve_trails():
         db.session.commit()
         flash(f'{trails.name} approved!')
         return redirect(url_for('admin_bp.admin'))
+
     if trails is not None and current_user.admin:
         form = TrailAddForm(obj=trails, trail_name=trails.name)
         form.submit.label.text = 'Approve'
@@ -104,10 +108,17 @@ def reject_trails(trail_id):
 def trails(trail_id):
     page = request.args.get('page', 1, type=int)
     statuses = Status.query.filter(
-        Status.trail_system == trail_id).filter(Status.active).order_by(
-            Status.timestamp.desc()).paginate(page, app.config['STATUSES_PER_PAGE'], False)
-    if not statuses:
-        return render_template('404.html'), 404
+        Status.trail_system == trail_id).filter(Status.active) \
+        .filter(~ exists().where(reporters.c.reporter_id == current_user.id).where(reporters.c.reported_id == Status.id)) \
+        .order_by(Status.timestamp.desc()).paginate(page, app.config['STATUSES_PER_PAGE'], False)
+    if not statuses.items:
+        statuses = Status.query.filter(
+            Status.trail_system == trail_id) \
+            .order_by(Status.timestamp.desc()).paginate(page, 1, False)
+        statuses.items[0].user_id = User.query.filter_by(
+            username='RadBot').first().id
+        statuses.items[0].body = 'No unreported statuses.'
+        statuses.items[0].timestamp = datetime.utcnow()
 
     next_url = url_for('trails_bp.trails', trail_id=trail_id,
                        page=statuses.next_num) if statuses.has_next else None

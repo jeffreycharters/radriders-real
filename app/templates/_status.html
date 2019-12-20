@@ -10,7 +10,7 @@
             <b><a href="{{ url_for('users_bp.users', username=status.author.username) }}" class="user-link">{{ status.author.username }}</a></b>,
             {{ moment(status.timestamp).fromNow() }}
         </span>
-        {% if current_user.is_authenticated %}
+        {% if current_user.is_authenticated and not status.author.username == 'RadBot' %}
         <a href="{{ url_for('status_bp.report_status', status_id=status.id) }}" class="text-warning">[Report]</a>
         {% endif %}
     </div>

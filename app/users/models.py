@@ -37,7 +37,7 @@ class User(UserMixin, db.Model):
 
     subscribed = db.relationship(
         'Trails', secondary=subscribers,
-        backref=db.backref('subscribed', lazy='dynamic'), lazy='dynamic')
+        backref=db.backref('subscribers', lazy='dynamic'), lazy='dynamic')
 
     reported = db.relationship(
         'Status', secondary=reporters,

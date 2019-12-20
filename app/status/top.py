@@ -1,4 +1,7 @@
 from app.status.models import Status
+from app.users.models import reporters
+from sqlalchemy.sql import exists
+from flask_login import current_user
 
 
 # This function takes a list of trail objects and the number of updates requested
@@ -16,10 +19,10 @@ def top_statuses(trails, number=3):
     status_index = []
     while len(trails_list) > 0:
         most_recent = Status.query.filter(
-            Status.trail_system.in_(trails_list)).filter(Status.active == True).order_by(Status.timestamp.desc()).first()
+            Status.trail_system.in_(trails_list)).filter(Status.active == True).filter(~ exists().where(reporters.c.reporter_id == current_user.id).where(reporters.c.reported_id == Status.id)).order_by(Status.timestamp.desc()).first()
         most_recent_id = most_recent.trails.id
         most_recent_updates = Status.query.filter_by(
-            trail_system=most_recent_id).filter(Status.active == True).order_by(Status.timestamp.desc()).limit(number).all()
+            trail_system=most_recent_id).filter(Status.active == True).filter(~ exists().where(reporters.c.reporter_id == current_user.id).where(reporters.c.reported_id == Status.id)).order_by(Status.timestamp.desc()).limit(number).all()
         for update in most_recent_updates:
             status_list.append(update)
         status_index.append(len(most_recent_updates))

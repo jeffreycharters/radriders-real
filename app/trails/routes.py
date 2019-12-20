@@ -2,12 +2,14 @@ from flask import Blueprint, render_template, redirect, flash, url_for
 from flask import current_app as app
 from flask import request
 from flask_login import login_required, current_user
+from sqlalchemy.sql import exists
 from app import db
 from app.trails.models import Trails
 from app.status.models import Status
-from app.users.models import User
+from app.users.models import User, reporters
 from app.status.top import top_statuses
 from app.trails.forms import TrailAddForm
+from datetime import datetime
 
 trails_bp = Blueprint('trails_bp', __name__,
                       template_folder='templates',
@@ -23,7 +25,7 @@ def index():
         return render_template('index.html', statuses=statuses, stranger=True)
     trails_to_get = current_user.subscribed.all()
     status_index, statuses = top_statuses(trails_to_get, 3)
-    #statuses = Status.query.order_by(Status.timestamp.desc()).limit(10)
+    # statuses = Status.query.order_by(Status.timestamp.desc()).limit(10)
     return render_template('index.html', statuses=statuses, status_index=status_index)
 
 
@@ -73,8 +75,17 @@ def explore_trails():
     all_trail_names.sort()
     statuses = []
     for name in all_trail_names:
-        statuses.append(Status.query.join(Trails, (Status.trail_system == Trails.id)).filter(Status.active).filter(Trails.name == name).order_by(
-            Status.timestamp.desc()).first())
+        # This next line includes the not-exists filter to remove reported trails from a user's feed
+        status = Status.query.join(Trails, (Status.trail_system == Trails.id)).filter(Status.active).filter(Trails.name == name).filter(
+            ~ exists().where(reporters.c.reporter_id == current_user.id).where(reporters.c.reported_id == Status.id)).order_by(
+            Status.timestamp.desc()).first()
+        if not status:
+            status = Status.query.join(Trails, (Status.trail_system == Trails.id)).filter(Status.active).filter(Trails.name == name).order_by(
+                Status.timestamp.desc()).first()
+            status.body = 'No unreported statuses available. Go write one!'
+            status.user_id = User.query.filter_by(username='RadBot').first().id
+            status.timestamp = datetime.utcnow()
+        statuses.append(status)
     return render_template('explore.html', title='All of the trails', statuses=statuses, user=current_user)
 
 
@@ -98,10 +109,10 @@ def trails(trail_id):
     if not statuses:
         return render_template('404.html'), 404
 
-    next_url = url_for('trails_bp.trails', trail_id=trail_id, page=statuses.next_num) \
-        if statuses.has_next else None
-    prev_url = url_for('trails_bp.trails', trail_id=trail_id, page=statuses.prev_num) \
-        if statuses.has_prev else None
+    next_url = url_for('trails_bp.trails', trail_id=trail_id,
+                       page=statuses.next_num) if statuses.has_next else None
+    prev_url = url_for('trails_bp.trails', trail_id=trail_id,
+                       page=statuses.prev_num) if statuses.has_prev else None
 
     start_date = Status.query.filter_by(
         trail_system=trail_id).order_by(Status.timestamp.asc()).first()

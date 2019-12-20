@@ -40,7 +40,7 @@ def report_status(status_id):
     status = Status.query.filter_by(id=status_id).first()
     if status:
         if current_user.has_reported(status):
-            flash('Already reported. Go enjoy a COCA COLA!!', 'warning')
+            flash('Already reported. Go enjoy a Coca Cola!!', 'warning')
         else:
             current_user.report(status)
             flash('This status has been brought to the moderators\' attention. Justice will \

@@ -28,7 +28,7 @@ def change_password(user_id):
         db.session.commit()
         flash('Password successfully changed!')
         redirect(url_for('users_bp.users', username=user.username))
-    return render_template('change_password.html', form=form)
+    return render_template('change_password.html', form=form, title='Change Password')
 
 
 @users_bp.route('/edit_profile/<user_id>', methods=['GET', 'POST'])
@@ -48,7 +48,7 @@ def edit_profile(user_id):
         form.username.data = user.username
         form.email.data = user.email
         form.about_me.data = user.about_me
-    return render_template('edit_profile.html', user=user, form=form)
+    return render_template('edit_profile.html', user=user, form=form, title='Edit Profile')
 
 
 @users_bp.route('/faq')
@@ -109,7 +109,7 @@ def reset_password(token):
         db.session.commit()
         flash('Your password has been reset')
         return redirect(url_for('users_bp.login'))
-    return render_template('reset_password.html', form=form)
+    return render_template('reset_password.html', form=form, title='Password Reset Time!')
 
 
 @users_bp.route('/reset_password_request', methods=['GET', 'POST'])

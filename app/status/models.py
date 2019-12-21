@@ -12,7 +12,7 @@ class Status(db.Model):
     active = db.Column(db.Boolean, default=True)
 
     def __repr__(self):
-        return f'<Status {self.author, self.trails, self.body }>'
+        return f'<Status { self.author, self.trails, self.body }>'
 
     def activate(self):
         if not self.active:

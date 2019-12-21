@@ -22,6 +22,36 @@ def admin():
                            trails_to_approve=trails_to_approve)
 
 
+@admin_bp.route('/activate/<table>-<id>')
+@login_required
+def activate(table, id):
+    if not current_user.admin:
+        return redirect(url_for('trails_bp.index'))
+    if table == 'user':
+        item = User.query.filter_by(id=id).first()
+        if item is None:
+            flash('Couldn\'t find item ' + id)
+            return redirect(url_for('admin_bp.list_user'))
+    item.activate()
+    flash('Activated ' + table + ': ' + str(item.id))
+    return redirect(url_for('admin_bp.list_'+table))
+
+
+@admin_bp.route('/deactivate/<table>-<id>')
+@login_required
+def deactivate(table, id):
+    if not current_user.admin:
+        return redirect(url_for('trails_bp.index'))
+    if table == 'user':
+        item = User.query.filter_by(id=id).first()
+        if item is None:
+            flash('Couldn\'t find item ' + id)
+            return redirect(url_for('admin_bp.list_user'))
+    item.deactivate()
+    flash('Deactivated ' + table + ': ' + str(item.id))
+    return redirect(url_for('admin_bp.list_'+table))
+
+
 @admin_bp.route('/list_status')
 @login_required
 def list_status():
@@ -40,10 +70,12 @@ def list_trails():
     return render_template('list_trails.html', title='Trails List', items=items)
 
 
-@admin_bp.route('/list_users')
+@admin_bp.route('/list_user')
 @login_required
-def list_users():
+def list_user():
     if not current_user.admin:
         return redirect(url_for('trails_bp.index'))
+    titles = User.__table__.columns.keys()
     items = User.query.all()
-    return render_template('list_users.html', title='User List', items=items)
+    return render_template('list_user.html', title='User List',
+                           items=items, titles=titles)

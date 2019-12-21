@@ -40,7 +40,7 @@ class EditProfileForm(FlaskForm):
 
     def validate_password(self, username):
         user = User.query.filter_by(username=self.original_username).first()
-        if not user.check_password(self.password.data):
+        if not user.check_password(self.password.data) and not current_user.admin:
             raise ValidationError('Wrong password.')
 
 

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+
+</div></div>
+<div>
+<div class="container" style="max-width:100%;">
+<h2 class="tagline">All Registered Users</h2>
+
+<table class="table table-striped">
+    <tr>
+        {% for title in titles %}
+            <th class="text-center">{{ title }}</th>
+        {% endfor %}
+            <th class="text-center">Edit</th>
+    </tr>
+        {% for item in items %}
+    <tr>
+            {% for title in titles %}
+                <td class="text-center">
+                {% if title == 'active' %}
+                    {% if item[title] == True %}
+                        <a href="{{ url_for('admin_bp.deactivate', table='user', id=item.id) }}">{{ item[title] }}</a>
+                    {% else %}
+                        <a href="{{ url_for('admin_bp.activate', table='user', id=item.id) }}">{{ item[title] }}</a>
+                    {% endif %}
+                {% elif item[title]|int or item[title] == True or item[title] == False or item[title] == None %}
+                    {{ item[title] }}
+                {% else %}
+                    {{ item[title]|truncate(20) }}
+                {% endif %}
+                </td>
+            {% endfor %}
+            <td class="text-center">
+                <a href="{{ url_for('users_bp.edit_profile', user_id=item.id) }}" role="button" class="btn-xs btn-warning">Edit</a>
+            </td>
+    </tr>
+        {% endfor %}
+</table>
+
+
+{% endblock %}

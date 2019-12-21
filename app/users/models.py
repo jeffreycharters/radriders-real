@@ -49,6 +49,16 @@ class User(UserMixin, db.Model):
     def is_active(self):
         return User.query.filter_by(id=self.id).first().active
 
+    def activate(self):
+        if not self.active:
+            self.active = True
+        db.session.commit()
+
+    def deactivate(self):
+        if self.active:
+            self.active = False
+            db.session.commit()
+
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 

@@ -22,3 +22,4 @@ class Config(object):
     ADMINS = ['hisroyalradness@gmail.com']
 
     STATUSES_PER_PAGE = 25
+    UPDATES_PER_TRAIL = 3

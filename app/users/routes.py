@@ -35,9 +35,9 @@ def change_password(user_id):
 @login_required
 def edit_profile(user_id):
     user = User.query.filter_by(id=user_id).first()
-    if user != current_user:
+    if user != current_user and not current_user.admin:
         return redirect(url_for('trails_bp.index'))
-    form = EditProfileForm(current_user.username)
+    form = EditProfileForm(user.username)
     if form.validate_on_submit():
         user.username = form.username.data
         user.email = form.email.data
@@ -45,9 +45,9 @@ def edit_profile(user_id):
         db.session.add(user)
         db.session.commit()
     elif request.method == 'GET':
-        form.username.data = current_user.username
-        form.email.data = current_user.email
-        form.about_me.data = current_user.about_me
+        form.username.data = user.username
+        form.email.data = user.email
+        form.about_me.data = user.about_me
     return render_template('edit_profile.html', user=user, form=form)
 
 

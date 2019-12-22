@@ -1,7 +1,72 @@
 {% extends 'base.html' %}
 
 {% block app_content %}
+
 <h2 class="tagline">Frequently Aksed Quetsions</h2>
-<hr>
-<p class="well"><b>Coming soon.</b> Or not. But probably yeah.</p>
+<hr class="dashed">
+
+
+
+<button class="question"><b>Can't I just use social media?</b></button>
+<div class="answer">
+  <p>Sure you can. But there are the issues of 'you being the product' and having to sift through piles of information to get what you want. We offer you only what you want, when you want it.</p>
+  <p>On top of that, the more people who use RadRiders, the better. Instead of a single individual or group being in charge of updating trail conditions, we harness the power of the good-hearted masses. On the flip-side, we also encourage you to respect local trail associations and stay off trails if you might damage them.</p>
+</div>
+
+<button class="question"><b>Why not just use Trailforks?</b></button>
+<div class="answer">
+  <p><a href="http://www.trailforks.com">Trailforks</a> is awesome and I don't mean to disparage them</p>
+  <p>But Trailforks is dogshit for trying to figure out if a location is worth riding at on any given day. They offer a trail-by-trail status reporting service, but not for the trail-network as a whole.</p>
+  <p>RadRiders offers a bite-sized glimpse of the entire network to determine whether there is too much mud, too much dust, too much ice or too many space invaders to bother going for a ride today.</p>
+</div>
+
+<button class="question"><b>Do I need to sign up?</b></button>
+<div class="answer">
+  <p>No. Click on the <a href="{{ url_for('trails_bp.explore_trails') }}">Trail List</a> link to find a list of all currently monitored trails. From here you can seek out the information you desire. You can even go to a trail network's page to see the last few updates.</p>
+  <p>You must create an account to subscribe to a group of trails, add trails, update statuses, etc.</p>
+  <p>You can use a dumb username and fake email to sign up, we don't care. The only drawback is your password is unresettable without a valid email.</p>
+  <p>Any information you provide will never be sold, unless they offer us like $70,000+ per user which is unlikely but just putting it out there for posterity.</p>
+</div>
+
+<button class="question"><b>What is your privacy policy?</b></button>
+<div class="answer">
+  <p>Unlike most websites that use Google Analytics, RadRiders uses <a href="https://matomo.org/faq/">Matomo</a> to collect website traffic data. Matomo respects browser "Do Not Track" policies, which means if you don't want to be seen, we don't see you.</p>
+  <p>Further to this, our analytics data is anonymized and stored on-site, which means that no one sees the data who isn't intended to. Even if it falls into the wrong hands, there is very little value to anyone who may want to pay.</p>
+  <p>For your own peace of mind, we also salt and hash your password before storing it in the database (English: we're not idiots with sensitive information). So we never see your password and it's very hard for a hacker to crack it, even if the database is compromised, which it won't be.</p>
+</div>
+
+<button class="question"><b>Some idiot is reporting junk.</b></button>
+<div class="answer">
+  <p>Click the "report" button beside the status. Gone! SAD!</p>
+  <p>We assumed the question here is "how do I deal with this?" If enough junk is reported they're going to get the shit blocked out of them. We can do that, we are all-powerful.</p>
+</div>
+
+<button class="question"><b>Can I please have more room to write my status updates? I thought you hated Twitter so why are you just a Twitter for bikes?</b></button>
+<div class="answer">
+  <p>First of all, I don't hate Twitter, I disdain it.</p>
+  <p>Second, no. Go start a blog.</p>
+  <p>Thurd, just kidding. Send an email to hisroyalradness [something something] gmail dot com and request it. Feedback always welcome.</p>
+</div>
+
+<script>
+// This makes the accordions go in 'n' out!
+var ques = document.getElementsByClassName("question");
+var i;
+
+for (i = 0; i < ques.length; i++) {
+  ques[i].addEventListener("click", function() {
+    this.classList.toggle("answered");
+    var answer_panel = this.nextElementSibling;
+    if (answer_panel.style.maxHeight) {
+      answer_panel.style.maxHeight = null;
+      answer_panel.classList.remove("well");
+    } else {
+      answer_panel.style.maxHeight = answer_panel.scrollHeight + "px";
+      answer_panel.classList.add("well");
+      answer_panel.style.paddingTop ="20px;";
+    }
+  });
+}
+</script>
+
 {% endblock %}

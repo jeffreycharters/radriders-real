@@ -19,6 +19,52 @@ hr.dashed {
     background: #999;
 }
 
+
+/* These parts decide what FAQ accordions look like */
+.question {
+    background-color: #c6e4c0;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: solid 1px #104104;
+    border-radius: 3px;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+    margin: 1px;
+  }
+
+  .answer {
+    padding: 0px 18px;
+    line-height: 1.5;
+    background-color: white;
+    border-radius: 6px;
+    max-height: 0;
+    text-align: justify;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+  
+  .answered, .question:hover {
+    background-color: #aec9a8;
+  }
+  
+  .question:after {
+    content: '\002B';
+    color: rgb(119, 119, 119);
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+  }
+  
+  .answered:after {
+    content: "\2212";
+  }
+  /* End of accordion nonsense */
+
+
 .div-status-top {
     padding: 5px 10px;
     background: #24799e;

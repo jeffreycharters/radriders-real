@@ -76,17 +76,17 @@ def approve_trails():
 @trails_bp.route('/explore_trails')
 def explore_trails():
     all_trail_names = [row.name for row in Trails.query.filter(
-        Trails.approved).distinct().all()]
+        Trails.approved, Trails.active).distinct().all()]
     all_trail_names.sort()
     statuses = []
     for name in all_trail_names:
         # This next line includes the not-exists filter to remove reported trails from a user's feed
         if current_user.is_authenticated:
-            status = Status.query.join(Trails, (Status.trail_system == Trails.id)).filter(Status.active).filter(Trails.approved).filter(Trails.name == name).filter(
+            status = Status.query.join(Trails, (Status.trail_system == Trails.id)).filter(Status.active).filter(Trails.approved, Trails.active).filter(Trails.name == name).filter(
                 ~ exists().where(reporters.c.reporter_id == current_user.id).where(reporters.c.reported_id == Status.id)).order_by(
                 Status.timestamp.desc()).first()
         else:
-            status = Status.query.join(Trails, (Status.trail_system == Trails.id)).filter(Status.active).filter(Trails.approved).filter(Trails.name == name).order_by(
+            status = Status.query.join(Trails, (Status.trail_system == Trails.id)).filter(Status.active).filter(Trails.approved, Trails.active).filter(Trails.name == name).order_by(
                 Status.timestamp.desc()).first()
         if not status:
             status = Status.query.join(Trails, (Status.trail_system == Trails.id)).filter(Status.active).filter(Trails.approved).filter(Trails.name == name).order_by(

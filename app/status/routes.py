@@ -31,12 +31,13 @@ def delete_status(status_id):
 def new_status():
     form = NewStatusForm()
     choices_list = []
-    subscribed_trails_names = current_user.subscribed.all()
+    subscribed_trails_names = current_user.subscribed.filter(
+        Trails.active).all()
     for t in subscribed_trails_names:
         choices_list.append((t.id, t.name))
     choices_list.append((-666, '- - - - - - - - -'))
     all_trail_names = Trails.query.distinct(
-        Trails.name).order_by(Trails.name.asc()).all()
+        Trails.name).filter(Trails.active).order_by(Trails.name.asc()).all()
     all_trail_choices = [(t.id, t.name) for t in all_trail_names]
     form.trails.choices = choices_list + all_trail_choices
     if form.validate_on_submit():

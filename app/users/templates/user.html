@@ -9,9 +9,9 @@
     {% if user.about_me %} <p><b>About me:</b> "{{ user.about_me }}"</p> {% endif %}
     <p class="text-center">{% if user == current_user %}You've{% else %}This user has{% endif %} posted <b>{{ total_count }}</b> status updates.</p>
     <p class="text-center">{% if user == current_user %}<a href="{{ url_for('users_bp.edit_profile', user_id=user.id) }}"
-    role="button" class="btn btn-info">Edit your profile</a> 
+    role="button" class="btn btn-info">Edit Profile</a> 
     <a href="{{ url_for('users_bp.change_password', user_id=user.id) }}"
-    role="button" class="btn btn-info">Change your password</a>
+    role="button" class="btn btn-info">Change Password</a>
     {% endif %}
 </div>
 

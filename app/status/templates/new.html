@@ -5,6 +5,44 @@
 
 <h2 class="tagline">Add new trail status</h2>
 
+<hr class="dashed">
+
 {{ wtf.quick_form(form) }}
+
+<script>
+
+function remaining_chars() {
+    var textbox = document.getElementById('body');
+    var dest = document.getElementById('countdown_div');
+    chars_entered = textbox.value.length;
+    if (chars_entered > 240 && dest.style.color != '#900') {
+        dest.style.color = '#c66';
+    }
+    else if (chars_entered < 240 && dest.style.color != '#000') {
+        dest.style.color = '#666';
+
+    }
+    dest.innerHTML = (280 - chars_entered) + ' characters remaining &nbsp;';
+}
+
+function auto_grow() {
+    var textbox = document.getElementById('body');
+    textbox.style.height='5px';
+    textbox.style.height = (textbox.scrollHeight)+'px';
+}
+
+var countdown = document.createElement('div');
+countdown.setAttribute('id', 'countdown_div');
+countdown.classList.add('text-right');
+countdown.style.color = '#666';
+countdown.innerHTML = '280 characters remaining &nbsp;';
+
+var status_box = document.getElementById('body');
+status_box.parentNode.appendChild(countdown);
+
+status_box.addEventListener('keyup', remaining_chars);
+status_box.addEventListener('keyup', auto_grow);
+
+</script>
 
 {% endblock %}

@@ -15,7 +15,10 @@
             <span style="color: #73abc2;">
                 <b><a href="{{ url_for('users_bp.users', username=statuses[tc.total_count].author.username) }}" class="user-link">{{ statuses[tc.total_count].author.username }}</a></b>,
                 {{ moment(statuses[tc.total_count].timestamp).fromNow() }}</span>
-                {% if not statuses[tc.total_count].author.username == 'RadBot' %}
+
+                {% if current_user == statuses[tc.total_count].author %}
+                    <a href="{{ url_for('status_bp.delete_status', status_id=statuses[tc.total_count].id) }}">[Delete]</a>
+                {% elif not statuses[tc.total_count].author.username == 'RadBot' %}
                     <a href="{{ url_for('status_bp.report_status', status_id=statuses[tc.total_count].id) }}" class="text-warning">[Report]</a>
                 {% endif %}
         </div>

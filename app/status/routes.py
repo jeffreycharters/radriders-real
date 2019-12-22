@@ -11,6 +11,21 @@ status_bp = Blueprint('status_bp', __name__,
                       static_folder='static')
 
 
+@status_bp.route('/delete_status/<status_id>')
+@login_required
+def delete_status(status_id):
+    status = Status.query.filter_by(id=status_id).first()
+    if status is None:
+        flash('No such status.')
+        return redirect(url_for('users_bp.users', username=current_user.username))
+    elif current_user != status.author:
+        flash('Can\'t delete other people\'s stuff!')
+        return redirect(url_for('users_bp.users', username=current_user.username))
+    status.deactivate()
+    flash('Deleted status #' + str(status.id) + ', \'' + status.body + '\'.')
+    return redirect(url_for('users_bp.users', username=current_user.username))
+
+
 @status_bp.route('/new_status', methods=['GET', 'POST'])
 @login_required
 def new_status():

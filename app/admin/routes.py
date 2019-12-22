@@ -18,9 +18,14 @@ admin_bp = Blueprint('admin_bp', __name__,
 def admin():
     if not current_user.admin:
         return redirect(url_for('trails_bp.index'))
+    user_count = User.query.count()
+    trails_count = Trails.query.count()
+    status_count = Status.query.count()
     trails_to_approve = Trails.query.filter_by(approved=0).count()
     return render_template('admin.html', title='Administration',
-                           trails_to_approve=trails_to_approve)
+                           trails_to_approve=trails_to_approve,
+                           user_count=user_count, trails_count=trails_count,
+                           status_count=status_count)
 
 
 @admin_bp.route('/activate/<table>-<id>')

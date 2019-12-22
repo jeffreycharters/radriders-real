@@ -81,9 +81,13 @@ def explore_trails():
     statuses = []
     for name in all_trail_names:
         # This next line includes the not-exists filter to remove reported trails from a user's feed
-        status = Status.query.join(Trails, (Status.trail_system == Trails.id)).filter(Status.active).filter(Trails.approved).filter(Trails.name == name).filter(
-            ~ exists().where(reporters.c.reporter_id == current_user.id).where(reporters.c.reported_id == Status.id)).order_by(
-            Status.timestamp.desc()).first()
+        if current_user.is_authenticated:
+            status = Status.query.join(Trails, (Status.trail_system == Trails.id)).filter(Status.active).filter(Trails.approved).filter(Trails.name == name).filter(
+                ~ exists().where(reporters.c.reporter_id == current_user.id).where(reporters.c.reported_id == Status.id)).order_by(
+                Status.timestamp.desc()).first()
+        else:
+            status = Status.query.join(Trails, (Status.trail_system == Trails.id)).filter(Status.active).filter(Trails.approved).filter(Trails.name == name).order_by(
+                Status.timestamp.desc()).first()
         if not status:
             status = Status.query.join(Trails, (Status.trail_system == Trails.id)).filter(Status.active).filter(Trails.approved).filter(Trails.name == name).order_by(
                 Status.timestamp.desc()).first()

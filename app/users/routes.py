@@ -66,6 +66,9 @@ def login():
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
             return redirect(url_for('users_bp.login'))
+        elif not user.is_active():
+            flash('Your account has been inactivated! Let time pass or contact us.')
+            return redirect(url_for('users_bp.login'))
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':

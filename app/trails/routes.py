@@ -108,10 +108,15 @@ def reject_trails(trail_id):
 @trails_bp.route('/trails/<trail_id>')
 def trails(trail_id):
     page = request.args.get('page', 1, type=int)
-    statuses = Status.query.filter(
-        Status.trail_system == trail_id).filter(Status.active) \
-        .filter(~ exists().where(reporters.c.reporter_id == current_user.id).where(reporters.c.reported_id == Status.id)) \
-        .order_by(Status.timestamp.desc()).paginate(page, app.config['STATUSES_PER_PAGE'], False)
+    if current_user.is_authenticated:
+        statuses = Status.query.filter(
+            Status.trail_system == trail_id).filter(Status.active) \
+            .filter(~ exists().where(reporters.c.reporter_id == current_user.id).where(reporters.c.reported_id == Status.id)) \
+            .order_by(Status.timestamp.desc()).paginate(page, app.config['STATUSES_PER_PAGE'], False)
+    else:
+        statuses = Status.query.filter(
+            Status.trail_system == trail_id).filter(Status.active) \
+            .order_by(Status.timestamp.desc()).paginate(page, app.config['STATUSES_PER_PAGE'], False)
     if not statuses.items:
         statuses = Status.query.filter(
             Status.trail_system == trail_id) \

@@ -32,6 +32,8 @@ def activate(table, id):
         item = User.query.filter_by(id=id).first()
     elif table == 'trails':
         item = Trails.query.filter_by(id=id).first()
+    elif table == 'status':
+        item = Status.query.filter_by(id=id).first()
     if item is None:
         flash('Couldn\'t find item ' + id)
         return redirect(url_for('admin_bp.list_'+table))
@@ -49,6 +51,8 @@ def deactivate(table, id):
         item = User.query.filter_by(id=id).first()
     elif table == 'trails':
         item = Trails.query.filter_by(id=id).first()
+    elif table == 'status':
+        item = Status.query.filter_by(id=id).first()
     if item is None:
         flash('Couldn\'t find item ' + id)
         return redirect(url_for('admin_bp.list_'+table))
@@ -85,8 +89,10 @@ def edit_trails(trails_id):
 def list_status():
     if not current_user.admin:
         return redirect(url_for('trails_bp.index'))
-    items = Status.query.order_by(Status.timestamp.desc()).all()
-    return render_template('list_status.html', title='Status List', items=items)
+    titles = Status.__table__.columns.keys()
+    items = Status.query.all()
+    return render_template('list_status.html', title='Status List',
+                           items=items, titles=titles)
 
 
 @admin_bp.route('/list_trails')

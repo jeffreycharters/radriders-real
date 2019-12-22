@@ -7,21 +7,39 @@
 <div class="container" style="max-width:100%;">
 <h2 class="tagline">All Status Updates</h2>
 
-<table class="table table-striped">
-    <tr>
-        <th>Trail Network</th>
-        <th>Author</th>
-        <th>Date/Time</th>
-        <th>Update</th>
+<table class="table table-striped table-hover">
+   <tr>
+        {% for title in titles %}
+            {% if title == 'user_id' %}
+                {% set title = 'Username' %}
+            {% endif %}
+            <th class="text-center">{{ title|title }}</th>
+        {% endfor %}
     </tr>
-    {% for item in items %}
+        {% for item in items %}
     <tr>
-        <td>{{ item.trails.name }}</td>
-        <td>{{ item.author.username }}</td>
-        <td>{{ moment(item.timestamp).format('LLL') }}</td>
-        <td>{{ item.body }}</td>
+            {% for title in titles %}
+                <td class="text-center">
+                {% if title == 'active' %}
+                    {% if item[title] == True %}
+                        <a href="{{ url_for('admin_bp.deactivate', table='status', id=item.id) }}">{{ item[title] }}</a>
+                    {% else %}
+                        <a href="{{ url_for('admin_bp.activate', table='status', id=item.id) }}">{{ item[title] }}</a>
+                    {% endif %}
+                {% elif title == 'user_id' %}
+                    {{ item.author.username }}
+                {% elif title == 'trail_system' %}
+                    {{ item.trails.name|truncate(15) }}
+                {% elif item[title]|int or item[title] == True or item[title] == False or item[title] == None or title == 'timestamp' %}
+                    {{ item[title] }}
+                {% else %}
+                    {{ item[title]|truncate(40) }}
+                {% endif %}
+                </td>
+            {% endfor %}
+
     </tr>
-    {% endfor %}
+        {% endfor %}
 </table>
 
 

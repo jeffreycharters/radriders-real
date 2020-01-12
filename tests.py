@@ -31,13 +31,21 @@ class UserModelCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    def test_user(self):
-        u1 = User(username='pete', email='pete@example.com')
-        u2 = User(username='ruttiger', email='ruttiger@example.com')
-        u3 = User(username='stampy', email='stampy@example.com')
-        u4 = User(username='pipsqueak', email='pipsqueak@example.com')
-        db.session.add_all([u1, u2, u3, u4])
+    def test_add_user(self):
+        u = User(username='speedo', email='speedo@example.org',
+                 about_me='I use this website')
+        u.set_password('infinite_jest')
+        db.session.add(u)
         db.session.commit()
+
+        self.assertTrue(u.check_password('infinite_jest'))
+        self.assertFalse(u.check_password('booger_man'))
+
+        self.assertTrue(u.is_active())
+        u.deactivate()
+        self.assertFalse(u.is_active())
+        u.activate()
+        self.assertTrue(u.is_active())
 
     def test_password_hashing(self):
         u = User(username='shrednik')
@@ -46,6 +54,15 @@ class UserModelCase(unittest.TestCase):
         self.assertTrue(u.check_password('shreddies'))
 
     def test_subscribe(self):
+        u1 = User(username='pete', email='pete@example.com')
+        u1.set_password('password1')
+        u2 = User(username='ruttiger', email='ruttiger@example.com')
+        u2.set_password('password2')
+        u3 = User(username='stampy', email='stampy@example.com')
+        u3.set_password('password3')
+        u4 = User(username='pipsqueak', email='pipsqueak@example.com')
+        u4.set_password('password4')
+        db.session.add_all([u1, u2, u3, u4])
         t1 = Trails(name='Trail System 1', city='City1',
                     province='ON', approved=True)
         t2 = Trails(name='Trail System 2', city='City2',
@@ -56,9 +73,6 @@ class UserModelCase(unittest.TestCase):
                     province='QC', approved=True)
         db.session.add_all([t1, t2, t3, t4])
         db.session.commit()
-
-        print(User.query.all())
-        u1, u2, u3, u4 = User.query.all()
 
         u1.subscribe(t1)
         u2.subscribe(t1)
@@ -87,9 +101,11 @@ if __name__ == '__main__':
         pass
     cov.stop()
     cov.save()
+    '''
     print("\n\nCoverage Report:\n")
     cov.report()
     basedir = os.path.abspath(os.path.dirname(__file__))
     print("HTML version: " + os.path.join(basedir, "tmp/coverage/index.html"))
     cov.html_report(directory='tmp/coverage')
+    '''
     cov.erase()

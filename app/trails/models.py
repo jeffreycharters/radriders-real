@@ -1,7 +1,8 @@
 from app import db
+from app.mixins import PaginatedAPIMixin
 
 
-class Trails(db.Model):
+class Trails(PaginatedAPIMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True)
     city = db.Column(db.String(64))
@@ -24,3 +25,26 @@ class Trails(db.Model):
         if self.active:
             self.active = False
             db.session.commit()
+
+    def to_dict(self):
+        data = {
+            'id': self.id,
+            'name': self.name,
+            'city': self.city,
+            'province': self.province,
+            'approved:': self.approved,
+            'trailforks': self.trailforks,
+            'subscriber_count': self.subscribers.count(),
+            'status_updates': self.statuses.count(),
+            '_links': {
+                'self': 'complete later',
+                'status_updates': 'complete later',
+                'subscribers': 'complete later'
+            }
+        }
+        return data
+
+    def from_dict(self, data, new_trails=False):
+        for field in ['name', 'city', 'province', 'trailforks']:
+            if field in data:
+                setattr(self, field, data[field])

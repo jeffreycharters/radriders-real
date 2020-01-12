@@ -1,6 +1,8 @@
 from flask import current_app as app
+from flask import url_for
 from app import db, login
 from app.status.models import Status
+from app.mixins import PaginatedAPIMixin
 from flask_login import UserMixin
 from time import time
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -25,7 +27,7 @@ reporters = db.Table('reporters',
                      )
 
 
-class User(UserMixin, db.Model):
+class User(PaginatedAPIMixin, UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
@@ -104,6 +106,32 @@ class User(UserMixin, db.Model):
         except:
             return
         return User.query.get(id)
+
+    def to_dict(self, include_email=False):
+        data = {
+            'id': self.id,
+            'username': self.username,
+            'about_me': self.about_me,
+            'admin': self.admin,
+            'active': self.active,
+            'post_count': self.statuses.count(),
+            'subscription_count': self.subscribed.count(),
+            '_links': {
+                'self': 'complete later',
+                'statuses': 'complete later',
+                'subscriptions': 'complete later'
+            }
+        }
+        if include_email:
+            data['email'] = self.email
+        return data
+
+    def from_dict(self, data, new_user=False):
+        for field in ['username', 'email', 'about_me']:
+            if field in data:
+                setattr(self, field, data[field])
+            if new_user and 'password' in data:
+                self.set_password(data['password'])
 
 
 @login.user_loader

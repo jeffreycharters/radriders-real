@@ -38,11 +38,16 @@ def create_app(config_class=Config):
         from .trails import routes as trails_routes
         from .admin import routes as admin_routes
 
+        # API imports #
+        from .api import bp as api_bp
+
         app.register_blueprint(errors_bp)
         app.register_blueprint(admin_routes.admin_bp)
         app.register_blueprint(users_routes.users_bp)
         app.register_blueprint(status_routes.status_bp)
         app.register_blueprint(trails_routes.trails_bp)
+
+        app.register_blueprint(api_bp, url_prefix='/api')
 
     # Send myself emails when something breaks
     if not app.debug:

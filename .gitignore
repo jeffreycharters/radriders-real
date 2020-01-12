@@ -8,3 +8,4 @@ app.db-journal
 logs
 *.png
 *.jpg
+tmp

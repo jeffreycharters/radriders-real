@@ -130,11 +130,12 @@ hr.dashed {
 .title-header a:visited {
     color: #ff002b;
     text-decoration: none;
+    transition: color 0.2s ease-out;
 }
 
 .title-header a:hover {
     color: rgb(51, 255, 0);
-    text-decoration: non;
+    text-decoration: none;
 }
 
 .title-header a:active {

@@ -9,3 +9,4 @@ logs
 *.png
 *.jpg
 tmp
+static

@@ -1,10 +1,4 @@
-/* @import url('https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap'); */
-
-@font-face {
-    font-family: 'rubber biscuits';
-    src: url('rubber_biscuits.ttf');
-
-}
+@import url('https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap'); 
 
 body{ 
     background:
@@ -159,11 +153,8 @@ hr.dashed {
     margin: 0;
     padding: 0;
     /* font-family: 'Permanent Marker'; */
-    font-family: 'rubber biscuits';
     color: #ff002b;
     text-align: center;
-    letter-spacing: 0.4rem;
-    font-size: 3rem;
 }
 
 .user-link, .user-link:visited  {

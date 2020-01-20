@@ -152,7 +152,7 @@ hr.dashed {
 .title-header {
     margin: 0;
     padding: 0;
-    /* font-family: 'Permanent Marker'; */
+    font-family: 'Permanent Marker';
     color: #ff002b;
     text-align: center;
 }

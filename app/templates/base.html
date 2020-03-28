@@ -49,27 +49,27 @@
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                         <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
+                        <span class="icon-bar" style="height: 5px; border-radius: 7px 7px 2px 2px; margin-bottom: 3px; background: #D6A87E;"></span>
+                        <span class="icon-bar" style="height: 3px; border-radius: 3px; margin-top: 0px; width: 20px; margin: auto;  background: #BF8572;"></span>
+                        <span class="icon-bar" style="height: 4px; border-radius: 2px 2px 4px 4px; margin-top: 3px; background: #D6A87E;"></span>
                     </button>
                     {% if current_user.is_anonymous %}
                         <a class="navbar-brand" href="{{ url_for('trails_bp.explore_trails') }}">Trail List</a>
                     {% else %}
-                        <a class="navbar-brand" href="{{ url_for('trails_bp.index') }}">Latest Updates</a>
+                        <a class="navbar-brand" href="{{ url_for('trails_bp.index') }}">See Latest Updates</a>
                     {% endif %}
                 </div>
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         {% if current_user.is_authenticated %}
-                        <li><a href="{{ url_for('trails_bp.explore_trails')}}">Trail List</a></li>
+                        <li><a href="{{ url_for('trails_bp.explore_trails')}}">View All Trails</a></li>
                         {% endif %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if current_user.is_authenticated %}
-                            <li><a href="{{ url_for('status_bp.new_status') }}"> +New Status</a></li>
-                            <li><a href="{{ url_for('trails_bp.add_trails') }}">Add Trails</a></li>
+                            <li><a href="{{ url_for('status_bp.new_status') }}">+New Status</a></li>
+                            <li><a href="{{ url_for('trails_bp.add_trails') }}">Add Trail System</a></li>
                             <li><a href="{{ url_for('users_bp.users', username=current_user.username) }}">Profile</a></li>
                         {% endif %}
                         {% if current_user.admin %}

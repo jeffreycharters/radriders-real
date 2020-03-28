@@ -7,6 +7,7 @@
 <hr class="dashed">
 
 <form action="" method="post" class="form" role="form">
+    {{ form.hidden_tag() }}
     <div class="form-group "><label class="control-label" for="trails">Trail Network</label>
         <select class="form-control" id="trails" name="trails">
             {% for trail in form.trails.choices %}

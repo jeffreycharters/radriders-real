@@ -4,28 +4,21 @@
 
 <h2 class="tagline">{{ statuses[0].trails.name }} Trail Stats and Updates</h2>
 
+<div class="well" style="margin-top: 25px;">
+    {% set subscribers = statuses[0].trails.subscribers.count() %}
+    <p>These trails have <b>{{ subscribers }}</b> subscriber{% if subscribers != 1 %}s{% endif %} and have had <b>{{ status_count }} update{% if status_count != 1 %}s{% endif %}</b> from <b>{{ author_count }} contributor{% if author_count != 1 %}s{% endif %}</b>
+    since <b>{{ moment(start_date.timestamp).format('LL') }}.</b><br></p>
+    <p class="text-center" style="margin-bottom: -7px;">
+        <a role="button" class= "btn btn-default" href="{{ url_for('status_bp.new_status', trail_id=trail_id) }}" style="margin-bottom: 5px;"><b>+</b> Add Trail Status</a>
+        <a role="button" class="btn btn-default" style="margin-bottom: 5px;" 
+            href="{% if statuses[0].trails.trailforks %}{{ statuses[0].trails.trailforks }}{% else %}https://www.trailforks.com{% endif %}"
+        target="_blank" rel="noopener noreferrer">View trails on Trailforks!</a></p>
+</div>
+
+<hr class="dashed">
 
 {% for status in statuses %}
-
     {% include '_status.html' %}
-
-    {% if loop.index0 == 0 %}
-
-        <div class="well">
-            {% set subscribers = statuses[0].trails.subscribers.count() %}
-            <p>These trails have <b>{{ subscribers }}</b> subscriber{% if subscribers != 1 %}s{% endif %} and have had <b>{{ status_count }} update{% if status_count != 1 %}s{% endif %}</b> from <b>{{ author_count }} contributor{% if author_count != 1 %}s{% endif %}</b>
-            since <b>{{ moment(start_date.timestamp).format('LL') }}.</b><br></p>
-            <p class="text-center" style="margin-bottom: -7px;">
-                <a role="button" class= "btn btn-default" href="{{ url_for('status_bp.new_status', trail_id=trail_id) }}" style="margin-bottom: 5px;"><b>+</b> Add Trail Status</a>
-                <a role="button" class="btn btn-default" style="margin-bottom: 5px;" 
-                    href="{% if statuses[0].trails.trailforks %}{{ statuses[0].trails.trailforks }}{% else %}https://www.trailforks.com{% endif %}"
-                target="_blank" rel="noopener noreferrer">View trails on Trailforks!</a></p>
-        </div>
-
-        <hr class="dashed">
-
-    {% endif %}    
-    
 {% endfor %}
 
 {% include '_pagination.html' %}

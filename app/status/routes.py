@@ -31,15 +31,17 @@ def delete_status(status_id):
 def new_status():
     form = NewStatusForm()
     choices_list = []
+    selected_trail_id = request.args.get('trail_id')
     subscribed_trails_names = current_user.subscribed.filter(
         Trails.active).all()
     for t in subscribed_trails_names:
-        choices_list.append((t.id, t.name))
-    choices_list.append((-666, '- - - - - - - - -'))
+        choices_list.append({"id": t.id, "name": t.name})
+    choices_list.append({"id": -666, "name": '- - - - - - - - -'})
     all_trail_names = Trails.query.distinct(
         Trails.name).filter(Trails.active).order_by(Trails.name.asc()).all()
-    all_trail_choices = [(t.id, t.name) for t in all_trail_names]
+    all_trail_choices = [{"id": t.id, "name": t.name} for t in all_trail_names]
     form.trails.choices = choices_list + all_trail_choices
+
     if form.validate_on_submit():
         trail_network = Trails.query.filter_by(id=form.trails.data).first()
         status = Status(author=current_user,
@@ -48,7 +50,7 @@ def new_status():
         db.session.commit()
         flash('Status updated successfully!')
         return redirect(url_for('trails_bp.index'))
-    return render_template('new.html', title='New Trail Status', form=form)
+    return render_template('new.html', title='New Trail Status', form=form, selected_trail_id=selected_trail_id)
 
 
 @status_bp.route('/report/<status_id>')

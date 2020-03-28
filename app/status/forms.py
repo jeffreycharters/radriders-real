@@ -7,7 +7,7 @@ from app.trails.models import Trails
 class NewStatusForm(FlaskForm):
     trails = SelectField('Trail Network', coerce=int)
     body = TextAreaField('Status', validators=[DataRequired(), Length(min=1, max=280)],
-                         render_kw={'placeholder': 'No emojis allowed! For now, at least.'})
+                         render_kw={'placeholder': 'How are the trails?'})
     submit = SubmitField('Add Status')
 
     def validate_trails(self, trails):

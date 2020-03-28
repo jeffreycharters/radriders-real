@@ -68,7 +68,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if current_user.is_authenticated %}
-                            <li><a href="{{ url_for('status_bp.new_status') }}">Update Status</a></li>
+                            <li><a href="{{ url_for('status_bp.new_status') }}"> +New Status</a></li>
                             <li><a href="{{ url_for('trails_bp.add_trails') }}">Add Trails</a></li>
                             <li><a href="{{ url_for('users_bp.users', username=current_user.username) }}">Profile</a></li>
                         {% endif %}

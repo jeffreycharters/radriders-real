@@ -143,6 +143,6 @@ def trails(trail_id):
     trails_name = statuses.items[0].trails.name
 
     return render_template('trail_system.html', statuses=statuses.items,
-                           title=trails_name+' Status', status_count=status_count,
+                           title=trails_name+' Status', trail_id=trail_id, status_count=status_count,
                            author_count=author_count, start_date=start_date,
                            next_url=next_url, prev_url=prev_url)

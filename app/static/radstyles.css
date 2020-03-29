@@ -177,3 +177,27 @@ hr.dashed {
         #fcfbf8 20px
     );
 }
+
+/* This next section overloads bootstrap colors for navbar */
+
+.navbar {
+    background-color: #24799e;
+    border: 1px solid rgb(10, 80, 120);
+    border-width: 0 0 1px 0;
+    border-radius: 0 0 3px 3px;
+  }
+  
+  .navbar a {
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-size: 95%;
+  }
+  
+  .navbar a:hover {
+    opacity: 50%;
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+  }
+
+/* End navbar overloading */

@@ -50,7 +50,7 @@ def new_status():
                         trails=trail_network, body=form.body.data)
         db.session.add(status)
         db.session.commit()
-        flash('Status updated successfully!')
+        flash('Status updated successfully!', category="rainbow-flash")
         return redirect(url_for('trails_bp.index'))
     return render_template('new.html', title='New Trail Status', form=form, selected_trail_id=selected_trail_id)
 

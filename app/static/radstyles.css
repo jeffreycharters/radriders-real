@@ -66,14 +66,14 @@ hr.dashed {
 
 .div-status-top {
     padding: 5px 10px;
-    background: #24799e;
+    background: #386C0B;
     color: #f1f1f1;
     border-radius: 8px 8px 0px 0px;
 }
 
 .div-status-middle {
     position: relative;
-    color: #0a2463;
+    color: #386C0B;
     padding: 5px 10px;
     border: 1px solid #1a535C;
     border-width: 0 1px 1px 1px;
@@ -83,7 +83,7 @@ hr.dashed {
 
 .div-status-bottom {
     position: relative;
-    color: #0a2463;
+    color: #386C0B;
     padding: 5px 10px;
     border: 1px solid #1a535C;
     border-width: 0 1px 1px 1px;
@@ -101,18 +101,18 @@ hr.dashed {
     width: 100%;
     height: 100%;
     opacity: 0.08;
-    background: url('/static/trees-bg.png') #f1f1f1;
+    background: url('/static/trees-bg.png') #E0EEC6;
 }
 
 .div-status-top b a:link,
 .div-status-top b a:visited,
 .div-status-top b a:active {
-    color: #f1f1f1;
-    text-decoration: underline #96c4d6;
+    color: #E0EEC6;
+    text-decoration: underline #EEF5DF;
 }
 
 .div-status-top b a:hover {
-    color: #c1ccd1;
+    color: #B8C3A3;
 
 }
 
@@ -158,12 +158,24 @@ hr.dashed {
 }
 
 .user-link, .user-link:visited  {
-    color: #73abc2;
-    text-decoration: underline #b4dbeb;
+    color: #7CA982;
+    text-decoration: underline #ABC8AF;
 }
 
 .user-link:hover {
-    color: rgb(60, 132, 143);
+    color: #719A77;
+}
+
+.user-time-span {
+    color: #7CA982;
+}
+
+.text-warning {
+    color: #CDB761;
+}
+
+.text-delete {
+    color: #7B826C;
 }
 
 .well {
@@ -178,7 +190,7 @@ hr.dashed {
     );
 }
 
-/* This next section overloads bootstrap colors for navbar */
+/* This next section overloads bootstrap colors for the navbar */
 
 .icon-bar {
     height: 2px !important;
@@ -188,7 +200,7 @@ hr.dashed {
 
 .navbar {
     min-height: 40px !important;
-    background-color: #24799e;
+    background-color: #386C0B;
     border: 1px solid rgb(10, 80, 120);
     border-width: 0 0 1px 0;
     border-radius: 0 0 3px 3px;
@@ -205,18 +217,14 @@ hr.dashed {
   
   .navbar-brand {
     font-weight: bold;
-    padding: 10px 15px !important;
     height: 40px !important;
-    line-height: 25px !important;
   }
 
   .navbar-collapse {
-    background-color: rgb(36, 121, 158);
+    background-color: #386C0B;
     border-radius: 0 0 3px 3px;
     border-color: rgba(255, 255, 255, 0.2) !important;
     margin: 0;
-    width: 100vw;
-    z-index: 10 !important;;
   }
 
   .navbar-toggle {
@@ -228,4 +236,10 @@ hr.dashed {
     border-color: rgba(255, 255, 255, 0.5) !important;
   }
 
+  /* Move the open link in the nav slightly so it doesn't look stupid on phones. */
+  @media (max-width:767px)  {
+    .navbar-brand {
+        padding: 10px 15px !important;
+    }
+  }
 /* End navbar overloading */

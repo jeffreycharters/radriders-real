@@ -6,13 +6,13 @@
 <div class="div-status-bottom">
     <b>{{ status.body }}</b><br>
     <div width="100%" style="text-align: right;">
-        <span style="color: #73abc2;">
+        <span class="user-time-stamp">
             <b><a href="{{ url_for('users_bp.users', username=status.author.username) }}" class="user-link">{{ status.author.username }}</a></b>,
             {{ moment(status.timestamp).fromNow() }}
         </span>
         
         {% if current_user == status.author %}
-            <a href="{{ url_for('status_bp.delete_status', status_id=status.id) }}">[Delete]</a>
+            <a href="{{ url_for('status_bp.delete_status', status_id=status.id) }}" class="text-delete">[Delete]</a>
         {% elif current_user.is_authenticated and not status.author.username == 'RadBot' %}
             <a href="{{ url_for('status_bp.report_status', status_id=status.id) }}" class="text-warning">[Report]</a>
         {% endif %}

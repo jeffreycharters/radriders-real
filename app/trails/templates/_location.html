@@ -20,7 +20,7 @@
 <div class="div-status-bottom">
     <b>{{ status.body }}</b><br>
     <div width="100%" style="text-align: right;">
-        <span style="color: #73abc2;"><b><a href="{{ url_for('users_bp.users', username=status.author.username) }}" class="user-link">{{ status.author.username }}</a></b>,
+        <span class="user-time-stamp"><b><a href="{{ url_for('users_bp.users', username=status.author.username) }}" class="user-link">{{ status.author.username }}</a></b>,
             {{ moment(status.timestamp).fromNow() }}
         </span>
         {% if current_user == status.author %}

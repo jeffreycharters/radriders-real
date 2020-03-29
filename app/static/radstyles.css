@@ -180,7 +180,14 @@ hr.dashed {
 
 /* This next section overloads bootstrap colors for navbar */
 
+.icon-bar {
+    height: 2px !important;
+    width: 23px !important;
+    border-radius: 2px !important;
+  }
+
 .navbar {
+    min-height: 40px !important;
     background-color: #24799e;
     border: 1px solid rgb(10, 80, 120);
     border-width: 0 0 1px 0;
@@ -198,6 +205,27 @@ hr.dashed {
   
   .navbar-brand {
     font-weight: bold;
+    padding: 10px 15px !important;
+    height: 40px !important;
+    line-height: 25px !important;
+  }
+
+  .navbar-collapse {
+    background-color: rgb(36, 121, 158);
+    border-radius: 0 0 3px 3px;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    margin: 0;
+    width: 100vw;
+    z-index: 10 !important;;
+  }
+
+  .navbar-toggle {
+    margin: 5px 10px !important;
+    width: 36px !important;
+    height: 30px !important;
+    padding: 0 5px !important;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
   }
 
 /* End navbar overloading */
